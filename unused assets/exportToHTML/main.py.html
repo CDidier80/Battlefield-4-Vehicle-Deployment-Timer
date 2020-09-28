@@ -1,0 +1,1014 @@
+<html>
+<head>
+<title>main.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #808080;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #cc7832;}
+.s3 { color: #6897bb;}
+.s4 { color: #6a8759;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+main.py</font>
+</center></td></tr></table>
+<pre><span class="s0"># BF4 Deployment Timer Main Excecutable</span>
+
+<span class="s2">from </span><span class="s1">PyQt5 </span><span class="s2">import </span><span class="s1">QtWidgets</span><span class="s2">, </span><span class="s1">QtMultimediaWidgets</span><span class="s2">, </span><span class="s1">QtMultimedia</span><span class="s2">, </span><span class="s1">QtCore</span><span class="s2">, </span><span class="s1">QtGui</span><span class="s2">, </span><span class="s1">Qt</span>
+<span class="s2">from </span><span class="s1">PyQt5.QtWidgets </span><span class="s2">import </span><span class="s1">QApplication</span><span class="s2">, </span><span class="s1">QMainWindow</span>
+<span class="s2">import </span><span class="s1">sys</span>
+
+
+
+
+
+<span class="s2">class </span><span class="s1">MyWindow(QMainWindow):</span>
+
+    <span class="s1">counter = </span><span class="s3">90</span>
+
+    <span class="s2">def </span><span class="s1">__init__(self):</span>
+        <span class="s1">super(MyWindow</span><span class="s2">, </span><span class="s1">self).__init__()</span>
+        <span class="s1">self.setGeometry(</span><span class="s3">0</span><span class="s2">, </span><span class="s3">0</span><span class="s2">, </span><span class="s3">1920</span><span class="s2">, </span><span class="s3">1080</span><span class="s1">)</span>
+        <span class="s1">self.setWindowTitle(</span><span class="s4">&quot;BF4 Deployment Timer&quot;</span><span class="s1">)</span>
+
+        <span class="s1">self.initUI()</span>
+
+
+
+    <span class="s2">def </span><span class="s1">initUI(self):</span>
+
+                                             <span class="s0"># INITIALIZATION</span>
+
+
+
+    <span class="s0">#                                     CREATE Video Background</span>
+
+        <span class="s0"># create link to movie file</span>
+        <span class="s1">movie_file = QtCore.QUrl.fromLocalFile(</span><span class="s4">'file: C:/Users/Owner/PycharmProjects/BF4 Deployment Timer/3d video background 2.mp4'</span><span class="s1">)</span>
+        <span class="s1">media = QtMultimedia.QMediaContent(movie_file)</span>
+
+        <span class="s0"># create video widget</span>
+        <span class="s1">self.videoWidget = QtMultimediaWidgets.QVideoWidget()</span>
+        <span class="s1">self.setCentralWidget(self.videoWidget)</span>
+
+        <span class="s0"># media player object   (video widget goes in media player)</span>
+        <span class="s1">self.mediaPlayer = QtMultimedia.QMediaPlayer(</span><span class="s2">None,</span>
+                                                     <span class="s1">QtMultimedia.QMediaPlayer.VideoSurface)</span>
+        <span class="s1">self.mediaPlayer.setVideoOutput(self.videoWidget)</span>
+
+        <span class="s0"># playlist</span>
+        <span class="s1">self.playlist = QtMultimedia.QMediaPlaylist()</span>
+        <span class="s1">self.playlist.setCurrentIndex(</span><span class="s3">0</span><span class="s1">)</span>
+        <span class="s1">self.playlist.setPlaybackMode(QtMultimedia.QMediaPlaylist.Loop)</span>
+        <span class="s1">self.playlist.addMedia(media)</span>
+
+        <span class="s0"># add content to media player</span>
+        <span class="s1">self.mediaPlayer.setPlaylist(self.playlist)</span>
+        <span class="s1">self.mediaPlayer.play()</span>
+
+
+
+                                         <span class="s0"># Load and start background music</span>
+
+        <span class="s1">self.music_link = QtCore.QUrl.fromLocalFile(</span>
+            <span class="s4">'C:</span><span class="s2">\\</span><span class="s4">Users</span><span class="s2">\\</span><span class="s4">Owner</span><span class="s2">\\</span><span class="s4">PycharmProjects</span><span class="s2">\\</span><span class="s4">BF4 Deployment Timer</span><span class="s2">\\</span><span class="s4">sound</span><span class="s2">\\</span><span class="s4">Deadline background music.mp3'</span><span class="s1">)</span>
+
+        <span class="s1">self.playlist_music = QtMultimedia.QMediaPlaylist()</span>
+        <span class="s1">self.playlist_music.setPlaybackMode(QtMultimedia.QMediaPlaylist.Loop)</span>
+
+        <span class="s1">media2 = QtMultimedia.QMediaContent(self.music_link)</span>
+        <span class="s1">self.playlist_music.addMedia(media2)</span>
+
+        <span class="s1">self.backgroundMusic_player = QtMultimedia.QMediaPlayer()   </span><span class="s0"># create mediaplayer object</span>
+        <span class="s1">self.backgroundMusic_player.setPlaylist(self.playlist_music)    </span><span class="s0"># set background music as the playlist</span>
+        <span class="s1">self.backgroundMusic_player.setVolume(</span><span class="s3">35</span><span class="s1">)</span>
+        <span class="s1">self.backgroundMusic_player.play()                            </span><span class="s0"># play it</span>
+
+
+
+                                           <span class="s0"># make dark panel background</span>
+
+        <span class="s1">self.blacktile_label = QtWidgets.QLabel(self)   </span><span class="s0">#self.timerwidget</span>
+        <span class="s1">self.blacktile_label.setGeometry(QtCore.QRect(</span><span class="s3">1313</span><span class="s2">, </span><span class="s3">0</span><span class="s2">, </span><span class="s3">601</span><span class="s2">, </span><span class="s3">1080</span><span class="s1">))    </span><span class="s0">#(1380, 720, 875, 493))</span>
+        <span class="s1">self.blacktile_label.setFrameShadow(QtWidgets.QFrame.Raised)</span>
+        <span class="s1">self.blacktile_label.setObjectName(</span><span class="s4">&quot;black panel&quot;</span><span class="s1">)</span>
+        <span class="s0"># self.timer_label.setAutoFillBackground(True)</span>
+        <span class="s1">self.blacktile_label.setStyleSheet(</span>
+            <span class="s4">&quot;border-image: url('C:/Users/Owner/PycharmProjects/BF4 Deployment Timer/images/blue control console vertical.png');&quot;</span><span class="s1">)</span>
+        <span class="s1">self.blacktile_label.show()</span>
+
+
+
+                                             <span class="s0"># make a label to display BF4 logo</span>
+
+        <span class="s1">logo_font = QtGui.QFont()</span>
+        <span class="s1">logo_font.setFamily(</span><span class="s4">&quot;Agency FB&quot;</span><span class="s1">)</span>
+        <span class="s1">logo_font.setPointSize(</span><span class="s3">26</span><span class="s1">)</span>
+
+        <span class="s1">self.logo_label = QtWidgets.QLabel(self)</span>
+        <span class="s1">self.logo_label.setGeometry(QtCore.QRect(</span><span class="s3">1400</span><span class="s2">, </span><span class="s3">90</span><span class="s2">, </span><span class="s3">425</span><span class="s2">, </span><span class="s3">100</span><span class="s1">))</span>
+        <span class="s1">self.logo_label.setFrameShadow(QtWidgets.QFrame.Raised)</span>
+        <span class="s1">self.logo_label.setTextFormat(QtCore.Qt.AutoText)</span>
+        <span class="s1">self.logo_label.setAlignment(QtCore.Qt.AlignCenter)</span>
+        <span class="s1">self.logo_label.setLayoutDirection(QtCore.Qt.RightToLeft)</span>
+        <span class="s1">self.logo_label.setText(</span><span class="s4">'Reinforcements Available'</span><span class="s1">)</span>
+        <span class="s1">self.logo_label.setFont(logo_font)</span>
+        <span class="s1">self.logo_label.setStyleSheet(</span>
+            <span class="s4">&quot;border-image: url('C:/Users/Owner/PycharmProjects/BF4 Deployment Timer/images/title background 2.png'); background-color:black; color: rgb(136, 204, 241)&quot;</span><span class="s1">)</span>
+        <span class="s1">self.logo_label.show()</span>
+
+
+
+
+
+
+
+                                          <span class="s0"># make a label to display timer countdown</span>
+
+        <span class="s1">self.timer_label = QtWidgets.QLabel(self)</span>
+        <span class="s1">self.timer_label.setGeometry(QtCore.QRect(</span><span class="s3">1411</span><span class="s2">, </span><span class="s3">720</span><span class="s2">, </span><span class="s3">417</span><span class="s2">, </span><span class="s3">271</span><span class="s1">))</span>
+        <span class="s1">self.timer_label.setFrameShadow(QtWidgets.QFrame.Raised)</span>
+
+        <span class="s1">self.timer_label.setStyleSheet(</span>
+            <span class="s4">&quot;border-image: url('C:/Users/Owner/PycharmProjects/BF4 Deployment Timer/images/blue tile background pic.jpg'); color: rgb(136, 204, 241)&quot;</span><span class="s1">)</span>
+        <span class="s1">self.timer_label.show()</span>
+
+        <span class="s1">font2 = QtGui.QFont()</span>
+        <span class="s1">font2.setFamily(</span><span class="s4">&quot;Agency FB&quot;</span><span class="s1">)</span>
+        <span class="s1">font2.setPointSize(</span><span class="s3">38</span><span class="s1">)</span>
+
+        <span class="s1">self.timer_label.setFont(font2)</span>
+        <span class="s1">self.timer_label.setTextFormat(QtCore.Qt.AutoText)</span>
+        <span class="s1">self.timer_label.setObjectName(</span><span class="s4">&quot;timerlabel&quot;</span><span class="s1">)</span>
+        <span class="s1">self.timer_label.setText(</span><span class="s4">'Awaiting Orders'</span><span class="s1">)</span>
+        <span class="s1">self.timer_label.setAlignment(QtCore.Qt.AlignCenter)</span>
+        <span class="s1">self.timer_label.setLayoutDirection(QtCore.Qt.RightToLeft)</span>
+
+
+
+
+                           <span class="s0"># Create UP and DOWN arrow buttons to manually adjust timer</span>
+
+
+        <span class="s0"># TIMER DOWN BUTTON</span>
+        <span class="s1">self.down_button = QtWidgets.QPushButton(self)  </span><span class="s0"># create AA button</span>
+        <span class="s1">self.down_button.setGeometry(QtCore.QRect(</span><span class="s3">1747</span><span class="s2">, </span><span class="s3">938</span><span class="s2">, </span><span class="s3">30</span><span class="s2">, </span><span class="s3">30</span><span class="s1">))  </span><span class="s0"># create size of icon</span>
+        <span class="s1">downbutton_icon = QtGui.QIcon()  </span><span class="s0"># create an icon object</span>
+        <span class="s1">downbutton_icon.addPixmap(QtGui.QPixmap(</span>
+            <span class="s4">'C:/Users/Owner/PycharmProjects/BF4 Deployment Timer/images/down arrow.png'</span><span class="s1">)</span><span class="s2">,</span>
+            <span class="s1">QtGui.QIcon.Normal</span><span class="s2">, </span><span class="s1">QtGui.QIcon.Off)  </span><span class="s0"># give object a picture attribute</span>
+        <span class="s1">self.down_button.setIcon(downbutton_icon)  </span><span class="s0"># assign the icon object (with pic) to the button's attribute property</span>
+        <span class="s1">self.down_button.setIconSize(QtCore.QSize(</span><span class="s3">30</span><span class="s2">, </span><span class="s3">30</span><span class="s1">))  </span><span class="s0"># set size of the icon</span>
+        <span class="s1">self.down_button.setObjectName(</span><span class="s4">&quot;down button&quot;</span><span class="s1">)  </span><span class="s0"># name the button</span>
+        <span class="s1">self.down_button.clicked.connect(self.down_button_click)</span>
+
+
+        <span class="s0"># TIMER UP BUTTON</span>
+        <span class="s1">self.up_button = QtWidgets.QPushButton(self)  </span><span class="s0"># create AA button</span>
+        <span class="s1">self.up_button.setGeometry(QtCore.QRect(</span><span class="s3">1777</span><span class="s2">, </span><span class="s3">938</span><span class="s2">, </span><span class="s3">30</span><span class="s2">, </span><span class="s3">30</span><span class="s1">))  </span><span class="s0"># create size of icon</span>
+        <span class="s1">up_button_icon = QtGui.QIcon()  </span><span class="s0"># create an icon object</span>
+        <span class="s1">up_button_icon.addPixmap(QtGui.QPixmap(</span>
+            <span class="s4">'C:/Users/Owner/PycharmProjects/BF4 Deployment Timer/images/up arrow rev.jpg'</span><span class="s1">)</span><span class="s2">,</span>
+            <span class="s1">QtGui.QIcon.Normal</span><span class="s2">, </span><span class="s1">QtGui.QIcon.Off)  </span><span class="s0"># give object a picture attribute</span>
+        <span class="s1">self.up_button.setIcon(up_button_icon)  </span><span class="s0"># assign the icon object (with pic) to the button's attribute property</span>
+        <span class="s1">self.up_button.setIconSize(QtCore.QSize(</span><span class="s3">30</span><span class="s2">, </span><span class="s3">30</span><span class="s1">))  </span><span class="s0"># set size of the icon</span>
+        <span class="s1">self.up_button.setObjectName(</span><span class="s4">&quot;up button&quot;</span><span class="s1">)  </span><span class="s0"># name the button</span>
+        <span class="s1">self.up_button.clicked.connect(self.up_button_click)</span>
+
+
+
+
+    <span class="s0">#                                      Create &quot;Cancel Timer&quot; Button</span>
+
+        <span class="s1">cancel_font = QtGui.QFont()</span>
+        <span class="s1">cancel_font.setFamily(</span><span class="s4">&quot;Agency FB&quot;</span><span class="s1">)</span>
+        <span class="s1">cancel_font.setPointSize(</span><span class="s3">12</span><span class="s1">)</span>
+
+
+        <span class="s1">self.cancel_button = QtWidgets.QPushButton(self)</span>
+        <span class="s1">self.cancel_button.setFont(cancel_font)</span>
+        <span class="s1">self.cancel_button.setGeometry(QtCore.QRect(</span><span class="s3">1396</span><span class="s2">, </span><span class="s3">980</span><span class="s2">, </span><span class="s3">160</span><span class="s2">, </span><span class="s3">30</span><span class="s1">))</span>
+        <span class="s1">self.cancel_button.setText(</span><span class="s4">'Cancel Orders'</span><span class="s1">)</span>
+        <span class="s1">self.cancel_button.setStyleSheet(</span><span class="s4">'color: rgb(136, 204, 241); background-color: black;'</span><span class="s1">)</span>
+        <span class="s1">self.cancel_button.setDisabled(</span><span class="s2">True</span><span class="s1">)</span>
+        <span class="s1">self.cancel_button.hide()</span>
+        <span class="s1">self.cancel_button.clicked.connect(self.cancel_clicked)</span>
+
+
+
+
+
+    <span class="s0">#                                      CREATE SOUND EFFECTS (menu clicks)</span>
+
+        <span class="s0"># Timer down beep</span>
+        <span class="s1">self.url_timeDown = QtCore.QUrl.fromLocalFile(</span>
+            <span class="s4">'C:</span><span class="s2">\\</span><span class="s4">Users</span><span class="s2">\\</span><span class="s4">Owner</span><span class="s2">\\</span><span class="s4">PycharmProjects</span><span class="s2">\\</span><span class="s4">BF4 Deployment Timer</span><span class="s2">\\</span><span class="s4">sound</span><span class="s2">\\</span><span class="s4">sound effects</span><span class="s2">\\</span><span class="s4">timer down.mp3'</span><span class="s1">)</span>
+        <span class="s1">self.timeDown = QtMultimedia.QMediaContent(self.url_timeDown)</span>
+        <span class="s1">self.timeDown_player = QtMultimedia.QMediaPlayer()</span>
+        <span class="s1">self.timeDown_player.setMedia(self.timeDown)</span>
+
+        <span class="s0"># Timer up beep</span>
+        <span class="s1">self.url_timeUp = QtCore.QUrl.fromLocalFile(</span>
+            <span class="s4">'C:</span><span class="s2">\\</span><span class="s4">Users</span><span class="s2">\\</span><span class="s4">Owner</span><span class="s2">\\</span><span class="s4">PycharmProjects</span><span class="s2">\\</span><span class="s4">BF4 Deployment Timer</span><span class="s2">\\</span><span class="s4">sound</span><span class="s2">\\</span><span class="s4">sound effects</span><span class="s2">\\</span><span class="s4">timer up.mp3'</span><span class="s1">)</span>
+        <span class="s1">self.timeUp = QtMultimedia.QMediaContent(self.url_timeUp)</span>
+        <span class="s1">self.timeUp_player = QtMultimedia.QMediaPlayer()</span>
+        <span class="s1">self.timeUp_player.setMedia(self.timeUp)</span>
+
+        <span class="s0"># error sound</span>
+        <span class="s1">self.url_error = QtCore.QUrl.fromLocalFile(</span>
+            <span class="s4">'C:</span><span class="s2">\\</span><span class="s4">Users</span><span class="s2">\\</span><span class="s4">Owner</span><span class="s2">\\</span><span class="s4">PycharmProjects</span><span class="s2">\\</span><span class="s4">BF4 Deployment Timer</span><span class="s2">\\</span><span class="s4">sound</span><span class="s2">\\</span><span class="s4">sound effects</span><span class="s2">\\</span><span class="s4">error sound.mp3'</span><span class="s1">)</span>
+        <span class="s1">self.error = QtMultimedia.QMediaContent(self.url_error)</span>
+        <span class="s1">self.error_player = QtMultimedia.QMediaPlayer()</span>
+        <span class="s1">self.error_player.setMedia(self.error)</span>
+        <span class="s1">self.error_player.setVolume(</span><span class="s3">18</span><span class="s1">)</span>
+
+        <span class="s0"># radio beep (button click confirmation)</span>
+        <span class="s1">self.url_radio = QtCore.QUrl.fromLocalFile(</span>
+            <span class="s4">'C:</span><span class="s2">\\</span><span class="s4">Users</span><span class="s2">\\</span><span class="s4">Owner</span><span class="s2">\\</span><span class="s4">PycharmProjects</span><span class="s2">\\</span><span class="s4">BF4 Deployment Timer</span><span class="s2">\\</span><span class="s4">sound</span><span class="s2">\\</span><span class="s4">sound effects</span><span class="s2">\\</span><span class="s4">double radio beep.wav'</span><span class="s1">)</span>
+        <span class="s1">self.radio = QtMultimedia.QMediaContent(self.url_radio)</span>
+        <span class="s1">self.radio_player = QtMultimedia.QMediaPlayer()</span>
+        <span class="s1">self.radio_player.setMedia(self.radio)</span>
+        <span class="s0"># self.radio_player.setVolume(100)</span>
+
+
+
+                                            <span class="s0"># LOAD VEHICLE AUDIO (4 FILES PER VEHICLE)</span>
+
+        <span class="s0">#1. Anti-Air</span>
+
+        <span class="s1">self.url_AA1 = QtCore.QUrl.fromLocalFile(</span>
+            <span class="s4">'C:</span><span class="s2">\\</span><span class="s4">Users</span><span class="s2">\\</span><span class="s4">Owner</span><span class="s2">\\</span><span class="s4">PycharmProjects</span><span class="s2">\\</span><span class="s4">BF4 Deployment Timer</span><span class="s2">\\</span><span class="s4">sound</span><span class="s2">\\</span><span class="s4">friendly timers</span><span class="s2">\\</span><span class="s4">friendly AA r</span><span class="s2">\\</span><span class="s4">friendly aa pt1.mp3'</span><span class="s1">)</span>
+        <span class="s1">self.AA1 = QtMultimedia.QMediaContent(self.url_AA1)</span>
+        <span class="s1">self.AA1_player = QtMultimedia.QMediaPlayer()</span>
+        <span class="s1">self.AA1_player.setMedia(self.AA1)</span>
+
+
+        <span class="s1">self.url_AA2 = QtCore.QUrl.fromLocalFile(</span>
+            <span class="s4">'C:</span><span class="s2">\\</span><span class="s4">Users</span><span class="s2">\\</span><span class="s4">Owner</span><span class="s2">\\</span><span class="s4">PycharmProjects</span><span class="s2">\\</span><span class="s4">BF4 Deployment Timer</span><span class="s2">\\</span><span class="s4">sound</span><span class="s2">\\</span><span class="s4">friendly timers</span><span class="s2">\\</span><span class="s4">friendly AA r</span><span class="s2">\\</span><span class="s4">friendly aa pt2.mp3'</span><span class="s1">)</span>
+        <span class="s1">self.AA2 = QtMultimedia.QMediaContent(self.url_AA2)</span>
+        <span class="s1">self.AA2_player = QtMultimedia.QMediaPlayer()</span>
+        <span class="s1">self.AA2_player.setMedia(self.AA2)</span>
+
+        <span class="s1">self.url_AA3 = QtCore.QUrl.fromLocalFile(</span>
+            <span class="s4">'C:</span><span class="s2">\\</span><span class="s4">Users</span><span class="s2">\\</span><span class="s4">Owner</span><span class="s2">\\</span><span class="s4">PycharmProjects</span><span class="s2">\\</span><span class="s4">BF4 Deployment Timer</span><span class="s2">\\</span><span class="s4">sound</span><span class="s2">\\</span><span class="s4">friendly timers</span><span class="s2">\\</span><span class="s4">friendly AA r</span><span class="s2">\\</span><span class="s4">friendly aa pt3.mp3'</span><span class="s1">)</span>
+        <span class="s1">self.AA3 = QtMultimedia.QMediaContent(self.url_AA3)</span>
+        <span class="s1">self.AA3_player = QtMultimedia.QMediaPlayer()</span>
+        <span class="s1">self.AA3_player.setMedia(self.AA3)</span>
+
+        <span class="s1">self.url_AA4 = QtCore.QUrl.fromLocalFile(</span>
+            <span class="s4">'C:</span><span class="s2">\\</span><span class="s4">Users</span><span class="s2">\\</span><span class="s4">Owner</span><span class="s2">\\</span><span class="s4">PycharmProjects</span><span class="s2">\\</span><span class="s4">BF4 Deployment Timer</span><span class="s2">\\</span><span class="s4">sound</span><span class="s2">\\</span><span class="s4">friendly timers</span><span class="s2">\\</span><span class="s4">friendly AA r</span><span class="s2">\\</span><span class="s4">friendly aa pt4.mp3'</span><span class="s1">)</span>
+        <span class="s1">self.AA4 = QtMultimedia.QMediaContent(self.url_AA4)</span>
+        <span class="s1">self.AA4_player = QtMultimedia.QMediaPlayer()</span>
+        <span class="s1">self.AA4_player.setMedia(self.AA4)</span>
+
+
+        <span class="s0">#2. Scout Helicopter</span>
+
+        <span class="s1">self.url_sh1 = QtCore.QUrl.fromLocalFile(</span>
+            <span class="s4">'C:</span><span class="s2">\\</span><span class="s4">Users</span><span class="s2">\\</span><span class="s4">Owner</span><span class="s2">\\</span><span class="s4">PycharmProjects</span><span class="s2">\\</span><span class="s4">BF4 Deployment Timer</span><span class="s2">\\</span><span class="s4">sound</span><span class="s2">\\</span><span class="s4">friendly timers</span><span class="s2">\\</span><span class="s4">friendly scout helicopter</span><span class="s2">\\</span><span class="s4">scout helo pt1 rev.mp3'</span><span class="s1">)</span>
+        <span class="s1">self.sh1 = QtMultimedia.QMediaContent(self.url_sh1)</span>
+        <span class="s1">self.sh1_player = QtMultimedia.QMediaPlayer()</span>
+        <span class="s1">self.sh1_player.setMedia(self.sh1)</span>
+
+        <span class="s1">self.url_sh2 = QtCore.QUrl.fromLocalFile(</span>
+            <span class="s4">'C:</span><span class="s2">\\</span><span class="s4">Users</span><span class="s2">\\</span><span class="s4">Owner</span><span class="s2">\\</span><span class="s4">PycharmProjects</span><span class="s2">\\</span><span class="s4">BF4 Deployment Timer</span><span class="s2">\\</span><span class="s4">sound</span><span class="s2">\\</span><span class="s4">friendly timers</span><span class="s2">\\</span><span class="s4">friendly scout helicopter</span><span class="s2">\\</span><span class="s4">scout helo pt2.wav'</span><span class="s1">)</span>
+        <span class="s1">self.sh2 = QtMultimedia.QMediaContent(self.url_sh2)</span>
+        <span class="s1">self.sh2_player = QtMultimedia.QMediaPlayer()</span>
+        <span class="s1">self.sh2_player.setMedia(self.sh2)</span>
+
+        <span class="s1">self.url_sh3 = QtCore.QUrl.fromLocalFile(</span>
+            <span class="s4">'C:</span><span class="s2">\\</span><span class="s4">Users</span><span class="s2">\\</span><span class="s4">Owner</span><span class="s2">\\</span><span class="s4">PycharmProjects</span><span class="s2">\\</span><span class="s4">BF4 Deployment Timer</span><span class="s2">\\</span><span class="s4">sound</span><span class="s2">\\</span><span class="s4">friendly timers</span><span class="s2">\\</span><span class="s4">friendly scout helicopter</span><span class="s2">\\</span><span class="s4">scout helo pt3.wav'</span><span class="s1">)</span>
+        <span class="s1">self.sh3 = QtMultimedia.QMediaContent(self.url_sh3)</span>
+        <span class="s1">self.sh3_player = QtMultimedia.QMediaPlayer()</span>
+        <span class="s1">self.sh3_player.setMedia(self.sh3)</span>
+
+        <span class="s1">self.url_sh4 = QtCore.QUrl.fromLocalFile(</span>
+            <span class="s4">'C:</span><span class="s2">\\</span><span class="s4">Users</span><span class="s2">\\</span><span class="s4">Owner</span><span class="s2">\\</span><span class="s4">PycharmProjects</span><span class="s2">\\</span><span class="s4">BF4 Deployment Timer</span><span class="s2">\\</span><span class="s4">sound</span><span class="s2">\\</span><span class="s4">friendly timers</span><span class="s2">\\</span><span class="s4">friendly scout helicopter</span><span class="s2">\\</span><span class="s4">scout helo pt4.wav'</span><span class="s1">)</span>
+        <span class="s1">self.sh4 = QtMultimedia.QMediaContent(self.url_sh4)</span>
+        <span class="s1">self.sh4_player = QtMultimedia.QMediaPlayer()</span>
+        <span class="s1">self.sh4_player.setMedia(self.sh4)</span>
+
+
+        <span class="s0">#3. attack helicopter</span>
+        <span class="s1">self.url_ah1 = QtCore.QUrl.fromLocalFile(</span>
+            <span class="s4">'C:</span><span class="s2">\\</span><span class="s4">Users</span><span class="s2">\\</span><span class="s4">Owner</span><span class="s2">\\</span><span class="s4">PycharmProjects</span><span class="s2">\\</span><span class="s4">BF4 Deployment Timer</span><span class="s2">\\</span><span class="s4">sound</span><span class="s2">\\</span><span class="s4">friendly timers</span><span class="s2">\\</span><span class="s4">friendly attack helicopter</span><span class="s2">\\</span><span class="s4">attack helo pt1.wav'</span><span class="s1">)</span>
+        <span class="s1">self.ah1 = QtMultimedia.QMediaContent(self.url_ah1)</span>
+        <span class="s1">self.ah1_player = QtMultimedia.QMediaPlayer()</span>
+        <span class="s1">self.ah1_player.setMedia(self.ah1)</span>
+
+        <span class="s1">self.url_ah2 = QtCore.QUrl.fromLocalFile(</span>
+             <span class="s4">'C:</span><span class="s2">\\</span><span class="s4">Users</span><span class="s2">\\</span><span class="s4">Owner</span><span class="s2">\\</span><span class="s4">PycharmProjects</span><span class="s2">\\</span><span class="s4">BF4 Deployment Timer</span><span class="s2">\\</span><span class="s4">sound</span><span class="s2">\\</span><span class="s4">friendly timers</span><span class="s2">\\</span><span class="s4">friendly attack helicopter</span><span class="s2">\\</span><span class="s4">attack helo pt2.wav'</span><span class="s1">)</span>
+        <span class="s1">self.ah2 = QtMultimedia.QMediaContent(self.url_ah2)</span>
+        <span class="s1">self.ah2_player = QtMultimedia.QMediaPlayer()</span>
+        <span class="s1">self.ah2_player.setMedia(self.ah2)</span>
+
+        <span class="s1">self.url_ah3 = QtCore.QUrl.fromLocalFile(</span>
+              <span class="s4">'C:</span><span class="s2">\\</span><span class="s4">Users</span><span class="s2">\\</span><span class="s4">Owner</span><span class="s2">\\</span><span class="s4">PycharmProjects</span><span class="s2">\\</span><span class="s4">BF4 Deployment Timer</span><span class="s2">\\</span><span class="s4">sound</span><span class="s2">\\</span><span class="s4">friendly timers</span><span class="s2">\\</span><span class="s4">friendly attack helicopter</span><span class="s2">\\</span><span class="s4">attack helo pt3.wav'</span><span class="s1">)</span>
+        <span class="s1">self.ah3 = QtMultimedia.QMediaContent(self.url_ah3)</span>
+        <span class="s1">self.ah3_player = QtMultimedia.QMediaPlayer()</span>
+        <span class="s1">self.ah3_player.setMedia(self.ah3)</span>
+
+        <span class="s1">self.url_ah4 = QtCore.QUrl.fromLocalFile(</span>
+                <span class="s4">'C:</span><span class="s2">\\</span><span class="s4">Users</span><span class="s2">\\</span><span class="s4">Owner</span><span class="s2">\\</span><span class="s4">PycharmProjects</span><span class="s2">\\</span><span class="s4">BF4 Deployment Timer</span><span class="s2">\\</span><span class="s4">sound</span><span class="s2">\\</span><span class="s4">friendly timers</span><span class="s2">\\</span><span class="s4">friendly attack helicopter</span><span class="s2">\\</span><span class="s4">attack helo pt4.wav'</span><span class="s1">)</span>
+        <span class="s1">self.ah4 = QtMultimedia.QMediaContent(self.url_ah4)</span>
+        <span class="s1">self.ah4_player = QtMultimedia.QMediaPlayer()</span>
+        <span class="s1">self.ah4_player.setMedia(self.ah4)</span>
+
+
+        <span class="s0">#4. Boat</span>
+        <span class="s1">self.url_b1 = QtCore.QUrl.fromLocalFile(</span>
+                <span class="s4">'C:</span><span class="s2">\\</span><span class="s4">Users</span><span class="s2">\\</span><span class="s4">Owner</span><span class="s2">\\</span><span class="s4">PycharmProjects</span><span class="s2">\\</span><span class="s4">BF4 Deployment Timer</span><span class="s2">\\</span><span class="s4">sound</span><span class="s2">\\</span><span class="s4">friendly timers</span><span class="s2">\\</span><span class="s4">friendly attack boat</span><span class="s2">\\</span><span class="s4">boat pt1.wav'</span><span class="s1">)</span>
+        <span class="s1">self.b1 = QtMultimedia.QMediaContent(self.url_b1)</span>
+        <span class="s1">self.b1_player = QtMultimedia.QMediaPlayer()</span>
+        <span class="s1">self.b1_player.setMedia(self.b1)</span>
+
+        <span class="s1">self.url_b2 = QtCore.QUrl.fromLocalFile(</span>
+                <span class="s4">'C:</span><span class="s2">\\</span><span class="s4">Users</span><span class="s2">\\</span><span class="s4">Owner</span><span class="s2">\\</span><span class="s4">PycharmProjects</span><span class="s2">\\</span><span class="s4">BF4 Deployment Timer</span><span class="s2">\\</span><span class="s4">sound</span><span class="s2">\\</span><span class="s4">friendly timers</span><span class="s2">\\</span><span class="s4">friendly attack boat</span><span class="s2">\\</span><span class="s4">boat pt2.wav'</span><span class="s1">)</span>
+        <span class="s1">self.b2 = QtMultimedia.QMediaContent(self.url_b2)</span>
+        <span class="s1">self.b2_player = QtMultimedia.QMediaPlayer()</span>
+        <span class="s1">self.b2_player.setMedia(self.b2)</span>
+
+        <span class="s1">self.url_b3 = QtCore.QUrl.fromLocalFile(</span>
+                <span class="s4">'C:</span><span class="s2">\\</span><span class="s4">Users</span><span class="s2">\\</span><span class="s4">Owner</span><span class="s2">\\</span><span class="s4">PycharmProjects</span><span class="s2">\\</span><span class="s4">BF4 Deployment Timer</span><span class="s2">\\</span><span class="s4">sound</span><span class="s2">\\</span><span class="s4">friendly timers</span><span class="s2">\\</span><span class="s4">friendly attack boat</span><span class="s2">\\</span><span class="s4">boat pt3.wav'</span><span class="s1">)</span>
+        <span class="s1">self.b3 = QtMultimedia.QMediaContent(self.url_b3)</span>
+        <span class="s1">self.b3_player = QtMultimedia.QMediaPlayer()</span>
+        <span class="s1">self.b3_player.setMedia(self.b3)</span>
+
+        <span class="s1">self.url_b4 = QtCore.QUrl.fromLocalFile(</span>
+                <span class="s4">'C:</span><span class="s2">\\</span><span class="s4">Users</span><span class="s2">\\</span><span class="s4">Owner</span><span class="s2">\\</span><span class="s4">PycharmProjects</span><span class="s2">\\</span><span class="s4">BF4 Deployment Timer</span><span class="s2">\\</span><span class="s4">sound</span><span class="s2">\\</span><span class="s4">friendly timers</span><span class="s2">\\</span><span class="s4">friendly attack boat</span><span class="s2">\\</span><span class="s4">boat pt4.wav'</span><span class="s1">)</span>
+        <span class="s1">self.b4 = QtMultimedia.QMediaContent(self.url_b4)</span>
+        <span class="s1">self.b4_player = QtMultimedia.QMediaPlayer()</span>
+        <span class="s1">self.b4_player.setMedia(self.b4)</span>
+
+        <span class="s0">#5. Tank</span>
+
+        <span class="s1">self.url_t1 = QtCore.QUrl.fromLocalFile(</span>
+            <span class="s4">'C:</span><span class="s2">\\</span><span class="s4">Users</span><span class="s2">\\</span><span class="s4">Owner</span><span class="s2">\\</span><span class="s4">PycharmProjects</span><span class="s2">\\</span><span class="s4">BF4 Deployment Timer</span><span class="s2">\\</span><span class="s4">sound</span><span class="s2">\\</span><span class="s4">friendly timers</span><span class="s2">\\</span><span class="s4">friendly tank timer</span><span class="s2">\\</span><span class="s4">tank pt1.wav'</span><span class="s1">)</span>
+        <span class="s1">self.t1 = QtMultimedia.QMediaContent(self.url_t1)</span>
+        <span class="s1">self.t1_player = QtMultimedia.QMediaPlayer()</span>
+        <span class="s1">self.t1_player.setMedia(self.t1)</span>
+
+
+        <span class="s1">self.url_t2 = QtCore.QUrl.fromLocalFile(</span>
+            <span class="s4">'C:</span><span class="s2">\\</span><span class="s4">Users</span><span class="s2">\\</span><span class="s4">Owner</span><span class="s2">\\</span><span class="s4">PycharmProjects</span><span class="s2">\\</span><span class="s4">BF4 Deployment Timer</span><span class="s2">\\</span><span class="s4">sound</span><span class="s2">\\</span><span class="s4">friendly timers</span><span class="s2">\\</span><span class="s4">friendly tank timer</span><span class="s2">\\</span><span class="s4">tank pt2.wav'</span><span class="s1">)</span>
+        <span class="s1">self.t2 = QtMultimedia.QMediaContent(self.url_t2)</span>
+        <span class="s1">self.t2_player = QtMultimedia.QMediaPlayer()</span>
+        <span class="s1">self.t2_player.setMedia(self.t2)</span>
+
+        <span class="s1">self.url_t3 = QtCore.QUrl.fromLocalFile(</span>
+            <span class="s4">'C:</span><span class="s2">\\</span><span class="s4">Users</span><span class="s2">\\</span><span class="s4">Owner</span><span class="s2">\\</span><span class="s4">PycharmProjects</span><span class="s2">\\</span><span class="s4">BF4 Deployment Timer</span><span class="s2">\\</span><span class="s4">sound</span><span class="s2">\\</span><span class="s4">friendly timers</span><span class="s2">\\</span><span class="s4">friendly tank timer</span><span class="s2">\\</span><span class="s4">tank pt3.wav'</span><span class="s1">)</span>
+        <span class="s1">self.t3 = QtMultimedia.QMediaContent(self.url_t3)</span>
+        <span class="s1">self.t3_player = QtMultimedia.QMediaPlayer()</span>
+        <span class="s1">self.t3_player.setMedia(self.t3)</span>
+
+        <span class="s1">self.url_t4 = QtCore.QUrl.fromLocalFile(</span>
+            <span class="s4">'C:</span><span class="s2">\\</span><span class="s4">Users</span><span class="s2">\\</span><span class="s4">Owner</span><span class="s2">\\</span><span class="s4">PycharmProjects</span><span class="s2">\\</span><span class="s4">BF4 Deployment Timer</span><span class="s2">\\</span><span class="s4">sound</span><span class="s2">\\</span><span class="s4">friendly timers</span><span class="s2">\\</span><span class="s4">friendly tank timer</span><span class="s2">\\</span><span class="s4">tank pt4.wav'</span><span class="s1">)</span>
+        <span class="s1">self.t4 = QtMultimedia.QMediaContent(self.url_t4)</span>
+        <span class="s1">self.t4_player = QtMultimedia.QMediaPlayer()</span>
+        <span class="s1">self.t4_player.setMedia(self.t4)</span>
+
+
+        <span class="s0">#6. LAV</span>
+
+        <span class="s1">self.url_lav1 = QtCore.QUrl.fromLocalFile(</span>
+            <span class="s4">'C:</span><span class="s2">\\</span><span class="s4">Users</span><span class="s2">\\</span><span class="s4">Owner</span><span class="s2">\\</span><span class="s4">PycharmProjects</span><span class="s2">\\</span><span class="s4">BF4 Deployment Timer</span><span class="s2">\\</span><span class="s4">sound</span><span class="s2">\\</span><span class="s4">friendly timers</span><span class="s2">\\</span><span class="s4">friendly lav</span><span class="s2">\\</span><span class="s4">lav pt1.wav'</span><span class="s1">)</span>
+        <span class="s1">self.lav1 = QtMultimedia.QMediaContent(self.url_lav1)</span>
+        <span class="s1">self.lav1_player = QtMultimedia.QMediaPlayer()</span>
+        <span class="s1">self.lav1_player.setMedia(self.lav1)</span>
+
+
+        <span class="s1">self.url_lav2 = QtCore.QUrl.fromLocalFile(</span>
+            <span class="s4">'C:</span><span class="s2">\\</span><span class="s4">Users</span><span class="s2">\\</span><span class="s4">Owner</span><span class="s2">\\</span><span class="s4">PycharmProjects</span><span class="s2">\\</span><span class="s4">BF4 Deployment Timer</span><span class="s2">\\</span><span class="s4">sound</span><span class="s2">\\</span><span class="s4">friendly timers</span><span class="s2">\\</span><span class="s4">friendly lav</span><span class="s2">\\</span><span class="s4">lav pt2.wav'</span><span class="s1">)</span>
+        <span class="s1">self.lav2 = QtMultimedia.QMediaContent(self.url_lav2)</span>
+        <span class="s1">self.lav2_player = QtMultimedia.QMediaPlayer()</span>
+        <span class="s1">self.lav2_player.setMedia(self.lav2)</span>
+
+        <span class="s1">self.url_lav3 = QtCore.QUrl.fromLocalFile(</span>
+            <span class="s4">'C:</span><span class="s2">\\</span><span class="s4">Users</span><span class="s2">\\</span><span class="s4">Owner</span><span class="s2">\\</span><span class="s4">PycharmProjects</span><span class="s2">\\</span><span class="s4">BF4 Deployment Timer</span><span class="s2">\\</span><span class="s4">sound</span><span class="s2">\\</span><span class="s4">friendly timers</span><span class="s2">\\</span><span class="s4">friendly lav</span><span class="s2">\\</span><span class="s4">lav pt3.wav'</span><span class="s1">)</span>
+        <span class="s1">self.lav3 = QtMultimedia.QMediaContent(self.url_lav3)</span>
+        <span class="s1">self.lav3_player = QtMultimedia.QMediaPlayer()</span>
+        <span class="s1">self.lav3_player.setMedia(self.lav3)</span>
+
+        <span class="s1">self.url_lav4 = QtCore.QUrl.fromLocalFile(</span>
+            <span class="s4">'C:</span><span class="s2">\\</span><span class="s4">Users</span><span class="s2">\\</span><span class="s4">Owner</span><span class="s2">\\</span><span class="s4">PycharmProjects</span><span class="s2">\\</span><span class="s4">BF4 Deployment Timer</span><span class="s2">\\</span><span class="s4">sound</span><span class="s2">\\</span><span class="s4">friendly timers</span><span class="s2">\\</span><span class="s4">friendly lav</span><span class="s2">\\</span><span class="s4">lav pt4.wav'</span><span class="s1">)</span>
+        <span class="s1">self.lav4 = QtMultimedia.QMediaContent(self.url_lav4)</span>
+        <span class="s1">self.lav4_player = QtMultimedia.QMediaPlayer()</span>
+        <span class="s1">self.lav4_player.setMedia(self.lav4)</span>
+
+
+        <span class="s0">#7. Jet</span>
+
+        <span class="s1">self.url_j1 = QtCore.QUrl.fromLocalFile(</span>
+            <span class="s4">'C:</span><span class="s2">\\</span><span class="s4">Users</span><span class="s2">\\</span><span class="s4">Owner</span><span class="s2">\\</span><span class="s4">PycharmProjects</span><span class="s2">\\</span><span class="s4">BF4 Deployment Timer</span><span class="s2">\\</span><span class="s4">sound</span><span class="s2">\\</span><span class="s4">friendly timers</span><span class="s2">\\</span><span class="s4">friendly jet</span><span class="s2">\\</span><span class="s4">jet pt1.wav'</span><span class="s1">)</span>
+        <span class="s1">self.j1 = QtMultimedia.QMediaContent(self.url_j1)</span>
+        <span class="s1">self.j1_player = QtMultimedia.QMediaPlayer()</span>
+        <span class="s1">self.j1_player.setMedia(self.j1)</span>
+
+
+        <span class="s1">self.url_j2 = QtCore.QUrl.fromLocalFile(</span>
+            <span class="s4">'C:</span><span class="s2">\\</span><span class="s4">Users</span><span class="s2">\\</span><span class="s4">Owner</span><span class="s2">\\</span><span class="s4">PycharmProjects</span><span class="s2">\\</span><span class="s4">BF4 Deployment Timer</span><span class="s2">\\</span><span class="s4">sound</span><span class="s2">\\</span><span class="s4">friendly timers</span><span class="s2">\\</span><span class="s4">friendly jet</span><span class="s2">\\</span><span class="s4">jet pt2.wav'</span><span class="s1">)</span>
+        <span class="s1">self.j2 = QtMultimedia.QMediaContent(self.url_j2)</span>
+        <span class="s1">self.j2_player = QtMultimedia.QMediaPlayer()</span>
+        <span class="s1">self.j2_player.setMedia(self.j2)</span>
+
+        <span class="s1">self.url_j3 = QtCore.QUrl.fromLocalFile(</span>
+            <span class="s4">'C:</span><span class="s2">\\</span><span class="s4">Users</span><span class="s2">\\</span><span class="s4">Owner</span><span class="s2">\\</span><span class="s4">PycharmProjects</span><span class="s2">\\</span><span class="s4">BF4 Deployment Timer</span><span class="s2">\\</span><span class="s4">sound</span><span class="s2">\\</span><span class="s4">friendly timers</span><span class="s2">\\</span><span class="s4">friendly jet</span><span class="s2">\\</span><span class="s4">jet pt3.wav'</span><span class="s1">)</span>
+        <span class="s1">self.j3 = QtMultimedia.QMediaContent(self.url_j3)</span>
+        <span class="s1">self.j3_player = QtMultimedia.QMediaPlayer()</span>
+        <span class="s1">self.j3_player.setMedia(self.j3)</span>
+
+        <span class="s1">self.url_j4 = QtCore.QUrl.fromLocalFile(</span>
+            <span class="s4">'C:</span><span class="s2">\\</span><span class="s4">Users</span><span class="s2">\\</span><span class="s4">Owner</span><span class="s2">\\</span><span class="s4">PycharmProjects</span><span class="s2">\\</span><span class="s4">BF4 Deployment Timer</span><span class="s2">\\</span><span class="s4">sound</span><span class="s2">\\</span><span class="s4">friendly timers</span><span class="s2">\\</span><span class="s4">friendly jet</span><span class="s2">\\</span><span class="s4">jet pt4.wav'</span><span class="s1">)</span>
+        <span class="s1">self.j4 = QtMultimedia.QMediaContent(self.url_j4)</span>
+        <span class="s1">self.j4_player = QtMultimedia.QMediaPlayer()</span>
+        <span class="s1">self.j4_player.setMedia(self.j4)</span>
+
+
+        <span class="s0">#8. Fighter Bomber</span>
+
+        <span class="s1">self.url_fb1 = QtCore.QUrl.fromLocalFile(</span>
+            <span class="s4">'C:</span><span class="s2">\\</span><span class="s4">Users</span><span class="s2">\\</span><span class="s4">Owner</span><span class="s2">\\</span><span class="s4">PycharmProjects</span><span class="s2">\\</span><span class="s4">BF4 Deployment Timer</span><span class="s2">\\</span><span class="s4">sound</span><span class="s2">\\</span><span class="s4">friendly timers</span><span class="s2">\\</span><span class="s4">friendly fighter bomber</span><span class="s2">\\</span><span class="s4">fighter bomber pt1.wav'</span><span class="s1">)</span>
+        <span class="s1">self.fb1 = QtMultimedia.QMediaContent(self.url_fb1)</span>
+        <span class="s1">self.fb1_player = QtMultimedia.QMediaPlayer()</span>
+        <span class="s1">self.fb1_player.setMedia(self.fb1)</span>
+
+
+        <span class="s1">self.url_fb2 = QtCore.QUrl.fromLocalFile(</span>
+            <span class="s4">'C:</span><span class="s2">\\</span><span class="s4">Users</span><span class="s2">\\</span><span class="s4">Owner</span><span class="s2">\\</span><span class="s4">PycharmProjects</span><span class="s2">\\</span><span class="s4">BF4 Deployment Timer</span><span class="s2">\\</span><span class="s4">sound</span><span class="s2">\\</span><span class="s4">friendly timers</span><span class="s2">\\</span><span class="s4">friendly fighter bomber</span><span class="s2">\\</span><span class="s4">fighter bomber pt2.wav'</span><span class="s1">)</span>
+        <span class="s1">self.fb2 = QtMultimedia.QMediaContent(self.url_fb2)</span>
+        <span class="s1">self.fb2_player = QtMultimedia.QMediaPlayer()</span>
+        <span class="s1">self.fb2_player.setMedia(self.fb2)</span>
+
+        <span class="s1">self.url_fb3 = QtCore.QUrl.fromLocalFile(</span>
+            <span class="s4">'C:</span><span class="s2">\\</span><span class="s4">Users</span><span class="s2">\\</span><span class="s4">Owner</span><span class="s2">\\</span><span class="s4">PycharmProjects</span><span class="s2">\\</span><span class="s4">BF4 Deployment Timer</span><span class="s2">\\</span><span class="s4">sound</span><span class="s2">\\</span><span class="s4">friendly timers</span><span class="s2">\\</span><span class="s4">friendly fighter bomber</span><span class="s2">\\</span><span class="s4">fighter bomber pt3.wav'</span><span class="s1">)</span>
+        <span class="s1">self.fb3 = QtMultimedia.QMediaContent(self.url_fb3)</span>
+        <span class="s1">self.fb3_player = QtMultimedia.QMediaPlayer()</span>
+        <span class="s1">self.fb3_player.setMedia(self.fb3)</span>
+
+        <span class="s1">self.url_fb4 = QtCore.QUrl.fromLocalFile(</span>
+            <span class="s4">'C:</span><span class="s2">\\</span><span class="s4">Users</span><span class="s2">\\</span><span class="s4">Owner</span><span class="s2">\\</span><span class="s4">PycharmProjects</span><span class="s2">\\</span><span class="s4">BF4 Deployment Timer</span><span class="s2">\\</span><span class="s4">sound</span><span class="s2">\\</span><span class="s4">friendly timers</span><span class="s2">\\</span><span class="s4">friendly fighter bomber</span><span class="s2">\\</span><span class="s4">fighter bomber pt4.wav'</span><span class="s1">)</span>
+        <span class="s1">self.fb4 = QtMultimedia.QMediaContent(self.url_fb4)</span>
+        <span class="s1">self.fb4_player = QtMultimedia.QMediaPlayer()</span>
+        <span class="s1">self.fb4_player.setMedia(self.fb4)</span>
+
+
+
+                                            <span class="s0"># End of audio file upload</span>
+
+
+
+
+
+    <span class="s0">#                                         CREATE VEHICLE BUTTONS</span>
+
+
+        <span class="s0">#1. Anti Air</span>
+        <span class="s1">self.AA_button = QtWidgets.QPushButton(self)                         </span><span class="s0"># create AA button</span>
+        <span class="s1">self.AA_button.setGeometry(QtCore.QRect(</span><span class="s3">1450</span><span class="s2">, </span><span class="s3">600</span><span class="s2">, </span><span class="s3">146</span><span class="s2">, </span><span class="s3">89</span><span class="s1">))         </span><span class="s0"># create size of icon</span>
+        <span class="s0"># self.AA_button.setStyleSheet('color: rgb(136, 204, 241)')</span>
+        <span class="s1">self.AA_icon = QtGui.QIcon()                                              </span><span class="s0"># create an icon object</span>
+        <span class="s1">self.AA_icon.addPixmap(QtGui.QPixmap(</span>
+            <span class="s4">'C:/Users/Owner/PycharmProjects/BF4 Deployment Timer/images/vehicle icons/blue icons/AA blue.jpg'</span><span class="s1">)</span><span class="s2">,</span>
+            <span class="s1">QtGui.QIcon.Normal</span><span class="s2">, </span><span class="s1">QtGui.QIcon.Off)  </span><span class="s0"># give object a picture attribute</span>
+        <span class="s1">self.AA_icon_green = QtGui.QIcon()</span>
+        <span class="s1">self.AA_icon_green.addPixmap(QtGui.QPixmap(</span>
+            <span class="s4">'C:/Users/Owner/PycharmProjects/BF4 Deployment Timer/images/vehicle icons/green icons/AA green.jpg'</span><span class="s1">)</span><span class="s2">,</span>
+            <span class="s1">QtGui.QIcon.Normal</span><span class="s2">, </span><span class="s1">QtGui.QIcon.Off)            </span><span class="s0"># for changing color when button selected</span>
+        <span class="s1">self.AA_button.setIcon(self.AA_icon)</span>
+        <span class="s1">self.AA_button.setIconSize(QtCore.QSize(</span><span class="s3">350</span><span class="s2">, </span><span class="s3">350</span><span class="s1">))</span>
+        <span class="s1">self.AA_button.setObjectName(</span><span class="s4">&quot;AA_button&quot;</span><span class="s1">)</span>
+        <span class="s1">self.AA_button.clicked.connect(self.AA_click)</span>
+        <span class="s1">self.AA_button.clicked.connect(self.timer_AA_start)</span>
+
+
+        <span class="s0">#2. Tank</span>
+        <span class="s1">self.tank_button = QtWidgets.QPushButton(self)</span>
+        <span class="s1">self.tank_button.setGeometry(QtCore.QRect(</span><span class="s3">1450</span><span class="s2">, </span><span class="s3">475</span><span class="s2">, </span><span class="s3">146</span><span class="s2">, </span><span class="s3">89</span><span class="s1">))</span>
+        <span class="s0"># self.tank_button.setStyleSheet('color: rgb(136, 204, 241)')</span>
+        <span class="s1">self.tank_icon = QtGui.QIcon()</span>
+        <span class="s1">self.tank_icon.addPixmap(QtGui.QPixmap(</span>
+            <span class="s4">'C:/Users/Owner/PycharmProjects/BF4 Deployment Timer/images/vehicle icons/blue icons/tank blue.jpg'</span><span class="s1">)</span><span class="s2">,</span>
+            <span class="s1">QtGui.QIcon.Normal</span><span class="s2">, </span><span class="s1">QtGui.QIcon.Off)</span>
+        <span class="s1">self.tank_icon_green = QtGui.QIcon()</span>
+        <span class="s1">self.tank_icon_green.addPixmap(QtGui.QPixmap(</span>
+            <span class="s4">'C:/Users/Owner/PycharmProjects/BF4 Deployment Timer/images/vehicle icons/green icons/tank green.jpg'</span><span class="s1">)</span><span class="s2">,</span>
+                                <span class="s1">QtGui.QIcon.Normal</span><span class="s2">, </span><span class="s1">QtGui.QIcon.Off)</span>
+        <span class="s1">self.tank_button.setIcon(self.tank_icon)</span>
+        <span class="s1">self.tank_button.setIconSize(QtCore.QSize(</span><span class="s3">350</span><span class="s2">, </span><span class="s3">350</span><span class="s1">))</span>
+        <span class="s1">self.tank_button.setObjectName(</span><span class="s4">&quot;tank_button&quot;</span><span class="s1">)</span>
+        <span class="s1">self.tank_button.clicked.connect(self.tank_click)</span>
+        <span class="s1">self.tank_button.clicked.connect(self.timer_tank_start)</span>
+
+
+        <span class="s0">#3. Jet</span>
+        <span class="s1">self.jet_button = QtWidgets.QPushButton(self)</span>
+        <span class="s1">self.jet_button.setGeometry(QtCore.QRect(</span><span class="s3">1650</span><span class="s2">, </span><span class="s3">225</span><span class="s2">, </span><span class="s3">146</span><span class="s2">, </span><span class="s3">89</span><span class="s1">))</span>
+        <span class="s0"># self.jet_button.setStyleSheet('background-color: color: rgb(136, 204, 241); border: none')</span>
+        <span class="s1">self.jet_icon = QtGui.QIcon()</span>
+        <span class="s1">self.jet_icon.addPixmap(QtGui.QPixmap(</span>
+            <span class="s4">'C:/Users/Owner/PycharmProjects/BF4 Deployment Timer/images/vehicle icons/blue icons/jet blue.jpg'</span><span class="s1">)</span><span class="s2">,</span>
+            <span class="s1">QtGui.QIcon.Normal</span><span class="s2">, </span><span class="s1">QtGui.QIcon.Off)</span>
+        <span class="s1">self.jet_icon_green = QtGui.QIcon()</span>
+        <span class="s1">self.jet_icon_green.addPixmap(QtGui.QPixmap(</span>
+            <span class="s4">'C:/Users/Owner/PycharmProjects/BF4 Deployment Timer/images/vehicle icons/green icons/jet green.jpg'</span><span class="s1">)</span><span class="s2">,</span>
+                                <span class="s1">QtGui.QIcon.Normal</span><span class="s2">, </span><span class="s1">QtGui.QIcon.Off)</span>
+        <span class="s1">self.jet_button.setIcon(self.jet_icon)</span>
+        <span class="s1">self.jet_button.setIconSize(QtCore.QSize(</span><span class="s3">350</span><span class="s2">, </span><span class="s3">350</span><span class="s1">))</span>
+        <span class="s1">self.jet_button.setObjectName(</span><span class="s4">&quot;jet_button&quot;</span><span class="s1">)</span>
+        <span class="s1">self.jet_button.clicked.connect(self.jet_click)</span>
+        <span class="s1">self.jet_button.clicked.connect(self.timer_jet_start)</span>
+
+        <span class="s0">#4. Scout Helicopter</span>
+        <span class="s1">self.scout_heli_button = QtWidgets.QPushButton(self)</span>
+        <span class="s1">self.scout_heli_button.setGeometry(QtCore.QRect(</span><span class="s3">1650</span><span class="s2">, </span><span class="s3">350</span><span class="s2">, </span><span class="s3">146</span><span class="s2">, </span><span class="s3">89</span><span class="s1">))</span>
+        <span class="s0"># self.scout_heli_button.setStyleSheet('color: rgb(136, 204, 241)')</span>
+        <span class="s1">self.scout_heli_icon = QtGui.QIcon()</span>
+        <span class="s1">self.scout_heli_icon.addPixmap(QtGui.QPixmap(</span>
+            <span class="s4">'C:/Users/Owner/PycharmProjects/BF4 Deployment Timer/images/vehicle icons/blue icons/scout heli blue.png'</span><span class="s1">)</span><span class="s2">,</span>
+            <span class="s1">QtGui.QIcon.Normal</span><span class="s2">, </span><span class="s1">QtGui.QIcon.Off)</span>
+        <span class="s1">self.scout_heli_icon_green = QtGui.QIcon()</span>
+        <span class="s1">self.scout_heli_icon_green.addPixmap(QtGui.QPixmap(</span>
+            <span class="s4">'C:/Users/Owner/PycharmProjects/BF4 Deployment Timer/images/vehicle icons/green icons/scout heli green.png'</span><span class="s1">)</span><span class="s2">,</span>
+                                <span class="s1">QtGui.QIcon.Normal</span><span class="s2">, </span><span class="s1">QtGui.QIcon.Off)</span>
+        <span class="s1">self.scout_heli_button.setIcon(self.scout_heli_icon)</span>
+        <span class="s1">self.scout_heli_button.setIconSize(QtCore.QSize(</span><span class="s3">350</span><span class="s2">, </span><span class="s3">350</span><span class="s1">))</span>
+        <span class="s1">self.scout_heli_button.setObjectName(</span><span class="s4">&quot;scout heli button&quot;</span><span class="s1">)</span>
+        <span class="s1">self.scout_heli_button.clicked.connect(self.scout_helo_click)</span>
+        <span class="s1">self.scout_heli_button.clicked.connect(self.timer_scout_helo_start)</span>
+
+
+        <span class="s0">#5. Boat</span>
+        <span class="s1">self.boat_button = QtWidgets.QPushButton(self)</span>
+        <span class="s1">self.boat_button.setGeometry(QtCore.QRect(</span><span class="s3">1650</span><span class="s2">, </span><span class="s3">600</span><span class="s2">, </span><span class="s3">146</span><span class="s2">, </span><span class="s3">89</span><span class="s1">))</span>
+        <span class="s0"># self.boat_button.setStyleSheet('color: rgb(136, 204, 241)')</span>
+        <span class="s1">self.boat_icon = QtGui.QIcon()</span>
+        <span class="s1">self.boat_icon.addPixmap(QtGui.QPixmap(</span>
+            <span class="s4">'C:/Users/Owner/PycharmProjects/BF4 Deployment Timer/images/vehicle icons/blue icons/boat blue.jpg'</span><span class="s1">)</span><span class="s2">,</span>
+            <span class="s1">QtGui.QIcon.Normal</span><span class="s2">, </span><span class="s1">QtGui.QIcon.Off)</span>
+        <span class="s1">self.boat_icon_green = QtGui.QIcon()</span>
+        <span class="s1">self.boat_icon_green.addPixmap(QtGui.QPixmap(</span>
+            <span class="s4">'C:/Users/Owner/PycharmProjects/BF4 Deployment Timer/images/vehicle icons/green icons/boat green.jpg'</span><span class="s1">)</span><span class="s2">,</span>
+                                <span class="s1">QtGui.QIcon.Normal</span><span class="s2">, </span><span class="s1">QtGui.QIcon.Off)</span>
+        <span class="s1">self.boat_button.setIcon(self.boat_icon)</span>
+        <span class="s1">self.boat_button.setIconSize(QtCore.QSize(</span><span class="s3">350</span><span class="s2">, </span><span class="s3">350</span><span class="s1">))</span>
+        <span class="s1">self.boat_button.setObjectName(</span><span class="s4">&quot;boat icon&quot;</span><span class="s1">)</span>
+        <span class="s1">self.boat_button.clicked.connect(self.boat_click)</span>
+        <span class="s1">self.boat_button.clicked.connect(self.timer_boat_start)</span>
+
+
+        <span class="s0">#6. LAV</span>
+        <span class="s1">self.lav_button = QtWidgets.QPushButton(self)</span>
+        <span class="s1">self.lav_button.setGeometry(QtCore.QRect(</span><span class="s3">1650</span><span class="s2">, </span><span class="s3">475</span><span class="s2">, </span><span class="s3">146</span><span class="s2">, </span><span class="s3">89</span><span class="s1">))</span>
+        <span class="s0"># self.lav_button.setStyleSheet('color: rgb(136, 204, 241))</span>
+        <span class="s1">self.lav_icon = QtGui.QIcon()</span>
+        <span class="s1">self.lav_icon.addPixmap(QtGui.QPixmap(</span>
+            <span class="s4">'C:/Users/Owner/PycharmProjects/BF4 Deployment Timer/images/vehicle icons/blue icons/lav blue.jpg'</span><span class="s1">)</span><span class="s2">,</span>
+            <span class="s1">QtGui.QIcon.Normal</span><span class="s2">, </span><span class="s1">QtGui.QIcon.Off)</span>
+        <span class="s1">self.lav_icon_green = QtGui.QIcon()</span>
+        <span class="s1">self.lav_icon_green.addPixmap(QtGui.QPixmap(</span>
+            <span class="s4">'C:/Users/Owner/PycharmProjects/BF4 Deployment Timer/images/vehicle icons/green icons/lav green.jpg'</span><span class="s1">)</span><span class="s2">,</span>
+                                <span class="s1">QtGui.QIcon.Normal</span><span class="s2">, </span><span class="s1">QtGui.QIcon.Off)  </span><span class="s0"># for changing color when button selected</span>
+        <span class="s1">self.lav_button.setIcon(self.lav_icon)</span>
+        <span class="s1">self.lav_button.setIconSize(QtCore.QSize(</span><span class="s3">350</span><span class="s2">, </span><span class="s3">350</span><span class="s1">))</span>
+        <span class="s1">self.lav_button.setObjectName(</span><span class="s4">&quot;LAV button&quot;</span><span class="s1">)</span>
+        <span class="s1">self.lav_button.clicked.connect(self.lav_click)</span>
+        <span class="s1">self.lav_button.clicked.connect(self.timer_lav_start)</span>
+
+
+        <span class="s0">#7. attack helo</span>
+        <span class="s1">self.attack_helo_button = QtWidgets.QPushButton(self)</span>
+        <span class="s1">self.attack_helo_button.setGeometry(QtCore.QRect(</span><span class="s3">1450</span><span class="s2">, </span><span class="s3">350</span><span class="s2">, </span><span class="s3">146</span><span class="s2">, </span><span class="s3">89</span><span class="s1">))</span>
+        <span class="s0"># self.attack_helo_button.setStyleSheet('color: rgb(136, 204, 241)')</span>
+        <span class="s1">self.attack_helo_icon = QtGui.QIcon()</span>
+        <span class="s1">self.attack_helo_icon.addPixmap(QtGui.QPixmap(</span>
+            <span class="s4">'C:/Users/Owner/PycharmProjects/BF4 Deployment Timer/images/vehicle icons/blue icons/attack helo blue.jpg'</span><span class="s1">)</span>
+            <span class="s2">, </span><span class="s1">QtGui.QIcon.Normal</span><span class="s2">, </span><span class="s1">QtGui.QIcon.Off)</span>
+
+        <span class="s1">self.attack_helo_icon_green = QtGui.QIcon()</span>
+        <span class="s1">self.attack_helo_icon_green.addPixmap(QtGui.QPixmap(</span>
+            <span class="s4">'C:/Users/Owner/PycharmProjects/BF4 Deployment Timer/images/vehicle icons/green icons/attack helo green.jpg'</span><span class="s1">)</span><span class="s2">,</span>
+                                <span class="s1">QtGui.QIcon.Normal</span><span class="s2">, </span><span class="s1">QtGui.QIcon.Off)</span>
+        <span class="s1">self.attack_helo_button.setIcon(self.attack_helo_icon)</span>
+        <span class="s1">self.attack_helo_button.setIconSize(QtCore.QSize(</span><span class="s3">350</span><span class="s2">, </span><span class="s3">350</span><span class="s1">))</span>
+        <span class="s1">self.attack_helo_button.setObjectName(</span><span class="s4">&quot;attack helo icon&quot;</span><span class="s1">)</span>
+        <span class="s1">self.attack_helo_button.clicked.connect(self.attack_helo_click)</span>
+        <span class="s1">self.attack_helo_button.clicked.connect(self.timer_attack_helo_start)</span>
+
+
+        <span class="s0">#8. fighter bomber</span>
+        <span class="s1">self.fighter_bomber_button = QtWidgets.QPushButton(self)</span>
+        <span class="s1">self.fighter_bomber_button.setGeometry(QtCore.QRect(</span><span class="s3">1450</span><span class="s2">, </span><span class="s3">225</span><span class="s2">, </span><span class="s3">146</span><span class="s2">, </span><span class="s3">89</span><span class="s1">))</span>
+        <span class="s0"># self.fighter_bomber_button.setStyleSheet('color: rgb(136, 204, 241)')</span>
+        <span class="s1">self.fighter_bomber_icon = QtGui.QIcon()</span>
+        <span class="s1">self.fighter_bomber_icon.addPixmap(QtGui.QPixmap(</span>
+            <span class="s4">'C:/Users/Owner/PycharmProjects/BF4 Deployment Timer/images/vehicle icons/blue icons/bomber blue.jpg'</span><span class="s1">)</span><span class="s2">,</span>
+            <span class="s1">QtGui.QIcon.Normal</span><span class="s2">, </span><span class="s1">QtGui.QIcon.Off)</span>
+        <span class="s1">self.fighter_bomber_icon_green = QtGui.QIcon()</span>
+        <span class="s1">self.fighter_bomber_icon_green.addPixmap(QtGui.QPixmap(</span>
+            <span class="s4">'C:/Users/Owner/PycharmProjects/BF4 Deployment Timer/images/vehicle icons/green icons/bomber green.jpg'</span><span class="s1">)</span><span class="s2">,</span>
+                                <span class="s1">QtGui.QIcon.Normal</span><span class="s2">, </span><span class="s1">QtGui.QIcon.Off)</span>
+        <span class="s1">self.fighter_bomber_button.setIcon(self.fighter_bomber_icon)</span>
+        <span class="s1">self.fighter_bomber_button.setIconSize(QtCore.QSize(</span><span class="s3">350</span><span class="s2">, </span><span class="s3">350</span><span class="s1">))</span>
+        <span class="s1">self.fighter_bomber_button.setObjectName(</span><span class="s4">&quot;Fighter Bomber button&quot;</span><span class="s1">)</span>
+        <span class="s1">self.fighter_bomber_button.clicked.connect(self.fighter_bomber_click)</span>
+        <span class="s1">self.fighter_bomber_button.clicked.connect(self.timer_fighter_bomber_start)</span>
+
+
+
+
+        <span class="s0">#                                CREATE TIMERS (OBJECTS) FOR EACH VEHICLE</span>
+
+        <span class="s0">#1. AA</span>
+        <span class="s1">self.countdown_AA = QtCore.QTimer()</span>
+        <span class="s1">self.countdown_AA.timeout.connect(self.print_timer)</span>
+        <span class="s1">self.countdown_AA.timeout.connect(self.AA_click)</span>
+
+        <span class="s0">#2. Scout Helo</span>
+        <span class="s1">self.countdown_scout_helo = QtCore.QTimer()</span>
+        <span class="s1">self.countdown_scout_helo.timeout.connect(self.print_timer)</span>
+        <span class="s1">self.countdown_scout_helo.timeout.connect(self.scout_helo_click)</span>
+
+        <span class="s0">#3. Attack Helo</span>
+        <span class="s1">self.countdown_attack_helo = QtCore.QTimer()</span>
+        <span class="s1">self.countdown_attack_helo.timeout.connect(self.print_timer)</span>
+        <span class="s1">self.countdown_attack_helo.timeout.connect(self.attack_helo_click)</span>
+
+        <span class="s0">#4. Boat</span>
+        <span class="s1">self.countdown_boat = QtCore.QTimer()</span>
+        <span class="s1">self.countdown_boat.timeout.connect(self.print_timer)</span>
+        <span class="s1">self.countdown_boat.timeout.connect(self.boat_click)</span>
+
+        <span class="s0">#5. Tank</span>
+        <span class="s1">self.countdown_tank = QtCore.QTimer()</span>
+        <span class="s1">self.countdown_tank.timeout.connect(self.print_timer)</span>
+        <span class="s1">self.countdown_tank.timeout.connect(self.tank_click)</span>
+
+        <span class="s0">#6. LAV</span>
+        <span class="s1">self.countdown_lav = QtCore.QTimer()</span>
+        <span class="s1">self.countdown_lav.timeout.connect(self.print_timer)</span>
+        <span class="s1">self.countdown_lav.timeout.connect(self.lav_click)</span>
+
+        <span class="s0">#7. Jet</span>
+        <span class="s1">self.countdown_jet = QtCore.QTimer()</span>
+        <span class="s1">self.countdown_jet.timeout.connect(self.print_timer)</span>
+        <span class="s1">self.countdown_jet.timeout.connect(self.jet_click)</span>
+
+        <span class="s0">#8. Fighter Bomber</span>
+        <span class="s1">self.countdown_fighter_bomber = QtCore.QTimer()</span>
+        <span class="s1">self.countdown_fighter_bomber.timeout.connect(self.print_timer)</span>
+        <span class="s1">self.countdown_fighter_bomber.timeout.connect(self.fighter_bomber_click)</span>
+
+
+
+
+
+        <span class="s0"># Create lists for buttons and timer objects. For loops will be used to reset default states of each.</span>
+
+
+        <span class="s1">self.vehicle_audio_list = [self.AA1_player</span><span class="s2">, </span><span class="s1">self.AA2_player</span><span class="s2">, </span><span class="s1">self.AA3_player</span><span class="s2">, </span><span class="s1">self.AA4_player</span><span class="s2">,</span>
+                                   <span class="s1">self.sh1_player</span><span class="s2">, </span><span class="s1">self.sh2_player</span><span class="s2">, </span><span class="s1">self.sh3_player</span><span class="s2">, </span><span class="s1">self.sh4_player</span><span class="s2">,</span>
+                                   <span class="s1">self.ah1_player</span><span class="s2">, </span><span class="s1">self.ah2_player</span><span class="s2">, </span><span class="s1">self.ah3_player</span><span class="s2">, </span><span class="s1">self.ah4_player</span><span class="s2">,</span>
+                                   <span class="s1">self.b1_player</span><span class="s2">, </span><span class="s1">self.b2_player</span><span class="s2">, </span><span class="s1">self.b3_player</span><span class="s2">, </span><span class="s1">self.b4_player</span><span class="s2">,</span>
+                                   <span class="s1">self.t1_player</span><span class="s2">, </span><span class="s1">self.t2_player</span><span class="s2">, </span><span class="s1">self.t3_player</span><span class="s2">, </span><span class="s1">self.t4_player</span><span class="s2">,</span>
+                                   <span class="s1">self.lav1_player</span><span class="s2">, </span><span class="s1">self.lav2_player</span><span class="s2">, </span><span class="s1">self.lav3_player</span><span class="s2">, </span><span class="s1">self.lav4_player</span><span class="s2">,</span>
+                                   <span class="s1">self.j1_player</span><span class="s2">, </span><span class="s1">self.j2_player</span><span class="s2">, </span><span class="s1">self.j3_player</span><span class="s2">, </span><span class="s1">self.j4_player</span><span class="s2">,</span>
+                                   <span class="s1">self.fb1_player</span><span class="s2">, </span><span class="s1">self.fb2_player</span><span class="s2">, </span><span class="s1">self.fb3_player</span><span class="s2">, </span><span class="s1">self.fb4_player]</span>
+
+
+        <span class="s1">self.timer_obj_list = [self.countdown_AA</span><span class="s2">, </span><span class="s1">self.countdown_scout_helo</span><span class="s2">, </span><span class="s1">self.countdown_attack_helo</span><span class="s2">,</span>
+                               <span class="s1">self.countdown_boat</span><span class="s2">, </span><span class="s1">self.countdown_tank</span><span class="s2">, </span><span class="s1">self.countdown_fighter_bomber</span><span class="s2">,</span>
+                               <span class="s1">self.countdown_jet</span><span class="s2">, </span><span class="s1">self.countdown_lav]</span>
+
+        <span class="s0"># self.vehicle_button_list = [self.fighter_bomber_button, self.attack_helo_button, self.lav_button,</span>
+        <span class="s0">#                             self.boat_button, self.scout_heli_button, self.jet_button, self.tank_button,</span>
+        <span class="s0">#                             self.AA_button]</span>
+
+
+
+        <span class="s0"># create dictionary pairing buttons and their default icons to make resetting to default easy</span>
+        <span class="s1">self.button_icon_dict = {</span>
+            <span class="s1">self.fighter_bomber_button: self.fighter_bomber_icon</span><span class="s2">,</span>
+            <span class="s1">self.attack_helo_button: self.attack_helo_icon</span><span class="s2">,</span>
+            <span class="s1">self.lav_button: self.lav_icon</span><span class="s2">,</span>
+            <span class="s1">self.boat_button: self.boat_icon</span><span class="s2">,</span>
+            <span class="s1">self.scout_heli_button: self.scout_heli_icon</span><span class="s2">,</span>
+            <span class="s1">self.jet_button: self.jet_icon</span><span class="s2">,</span>
+            <span class="s1">self.tank_button: self.tank_icon</span><span class="s2">,</span>
+            <span class="s1">self.AA_button: self.AA_icon</span><span class="s2">,</span>
+
+        <span class="s1">}</span>
+
+
+
+                                <span class="s0">#           END OF INITIALIZATION</span>
+
+
+
+
+
+    <span class="s0">#                                METHODS NEEDED FOR WIDGET FUNCTIONALITY</span>
+
+
+    <span class="s0"># Manually Adjust Timer</span>
+    <span class="s2">def </span><span class="s1">down_button_click(self):</span>
+        <span class="s1">MyWindow.counter -= </span><span class="s3">1</span>
+        <span class="s1">self.timeUp_player.play()</span>
+        <span class="s1">self.timer_label.setText(str(MyWindow.counter))</span>
+    <span class="s2">def </span><span class="s1">up_button_click(self):</span>
+        <span class="s1">MyWindow.counter += </span><span class="s3">1</span>
+        <span class="s1">self.timeDown_player.play()</span>
+        <span class="s1">self.timer_label.setText(str(MyWindow.counter))</span>
+
+                                                <span class="s0"># RESET METHODS</span>
+
+    <span class="s0"># this method resets other active timers so user can start a new timer with a new vehicle without conflicts</span>
+    <span class="s2">def </span><span class="s1">cancel_timers(self):</span>
+
+        <span class="s1">font4 = QtGui.QFont()</span>
+        <span class="s1">font4.setFamily(</span><span class="s4">&quot;Agency FB&quot;</span><span class="s1">)</span>
+        <span class="s1">font4.setPointSize(</span><span class="s3">38</span><span class="s1">)</span>
+
+        <span class="s2">for </span><span class="s1">timer_obj </span><span class="s2">in </span><span class="s1">self.timer_obj_list:</span>
+            <span class="s2">if </span><span class="s1">timer_obj.isActive() == </span><span class="s2">True</span><span class="s1">:</span>
+                <span class="s1">timer_obj.stop()</span>
+                <span class="s1">MyWindow.counter = </span><span class="s3">90</span>
+                <span class="s1">self.timer_label.setText(</span><span class="s4">'Awaiting Orders'</span><span class="s1">)</span>
+                <span class="s1">self.timer_label.setFont(font4)</span>
+                <span class="s1">self.timer_label.setStyleSheet(</span>
+                    <span class="s4">&quot;border-image: url('C:/Users/Owner/PycharmProjects/BF4 Deployment Timer/images/blue tile background pic.jpg'); color: rgb(136, 204, 241)&quot;</span><span class="s1">)</span>
+
+
+
+    <span class="s0"># this method resets button icons to default blue (using above dictionary)</span>
+    <span class="s2">def </span><span class="s1">reset_button_colors(self):</span>
+        <span class="s2">for </span><span class="s1">vehicle_button </span><span class="s2">in </span><span class="s1">self.button_icon_dict.keys():</span>
+            <span class="s1">vehicle_button.setIcon(self.button_icon_dict.get(vehicle_button))</span>
+
+
+
+    <span class="s0"># this method stops mp3 playback</span>
+    <span class="s2">def </span><span class="s1">reset_audio(self):</span>
+        <span class="s2">for </span><span class="s1">mp3 </span><span class="s2">in </span><span class="s1">self.vehicle_audio_list:</span>
+            <span class="s2">if </span><span class="s1">mp3.state() == </span><span class="s3">1</span><span class="s1">:                   </span><span class="s0"># state 1 is given to a Qmediaplayer when media is playing</span>
+                <span class="s1">mp3.stop()</span>
+
+
+
+
+    <span class="s0"># combines all needed resets in a single method</span>
+    <span class="s2">def </span><span class="s1">reset_process(self):</span>
+        <span class="s1">self.cancel_timers()</span>
+        <span class="s1">self.reset_button_colors()</span>
+        <span class="s1">self.reset_audio()</span>
+
+                                                <span class="s0"># end of reset methods</span>
+
+                                       <span class="s0"># create 'cancel orders' method (reset)</span>
+    <span class="s2">def </span><span class="s1">cancel_clicked(self):</span>
+        <span class="s1">self.error_player.play()</span>
+        <span class="s1">self.reset_process()</span>
+        <span class="s1">self.cancel_button.hide()</span>
+        <span class="s1">self.cancel_button.setDisabled(</span><span class="s2">True</span><span class="s1">)</span>
+
+
+                                            <span class="s0">#  Vehicle Timer Start Methods</span>
+
+    <span class="s2">def </span><span class="s1">timer_AA_start(self):</span>
+        <span class="s1">self.radio_player.play()</span>
+        <span class="s1">self.reset_process()</span>
+        <span class="s1">self.AA_button.setIcon(self.AA_icon_green)</span>
+        <span class="s1">self.countdown_AA.start(</span><span class="s3">1000</span><span class="s1">)</span>
+
+    <span class="s2">def </span><span class="s1">timer_scout_helo_start(self):</span>
+        <span class="s1">self.radio_player.play()</span>
+        <span class="s1">self.reset_process()</span>
+        <span class="s1">self.scout_heli_button.setIcon(self.scout_heli_icon_green)</span>
+        <span class="s1">self.countdown_scout_helo.start(</span><span class="s3">1000</span><span class="s1">)</span>
+
+    <span class="s2">def </span><span class="s1">timer_attack_helo_start(self):</span>
+        <span class="s1">self.radio_player.play()</span>
+        <span class="s1">self.reset_process()</span>
+        <span class="s1">self.attack_helo_button.setIcon(self.attack_helo_icon_green)</span>
+        <span class="s1">self.countdown_attack_helo.start(</span><span class="s3">1000</span><span class="s1">)</span>
+
+    <span class="s2">def </span><span class="s1">timer_boat_start(self):</span>
+        <span class="s1">self.radio_player.play()</span>
+        <span class="s1">self.reset_process()</span>
+        <span class="s1">self.boat_button.setIcon(self.boat_icon_green)</span>
+        <span class="s1">self.countdown_boat.start(</span><span class="s3">1000</span><span class="s1">)</span>
+
+    <span class="s2">def </span><span class="s1">timer_tank_start(self):</span>
+        <span class="s1">self.radio_player.play()</span>
+        <span class="s1">self.reset_process()</span>
+        <span class="s1">self.tank_button.setIcon(self.tank_icon_green)</span>
+        <span class="s1">self.countdown_tank.start(</span><span class="s3">1000</span><span class="s1">)</span>
+
+    <span class="s2">def </span><span class="s1">timer_lav_start(self):</span>
+        <span class="s1">self.radio_player.play()</span>
+        <span class="s1">self.reset_process()</span>
+        <span class="s1">self.lav_button.setIcon(self.lav_icon_green)</span>
+        <span class="s1">self.countdown_lav.start(</span><span class="s3">1000</span><span class="s1">)</span>
+
+    <span class="s2">def </span><span class="s1">timer_jet_start(self):</span>
+        <span class="s1">self.radio_player.play()</span>
+        <span class="s1">self.reset_process()</span>
+        <span class="s1">self.jet_button.setIcon(self.jet_icon_green)</span>
+        <span class="s1">self.countdown_jet.start(</span><span class="s3">1000</span><span class="s1">)</span>
+
+    <span class="s2">def </span><span class="s1">timer_fighter_bomber_start(self):</span>
+        <span class="s1">self.radio_player.play()</span>
+        <span class="s1">self.reset_process()</span>
+        <span class="s1">self.fighter_bomber_button.setIcon(self.fighter_bomber_icon_green)</span>
+        <span class="s1">self.countdown_fighter_bomber.start(</span><span class="s3">1000</span><span class="s1">)</span>
+
+
+
+                                                <span class="s0"># Display Countdown Method</span>
+
+    <span class="s2">def </span><span class="s1">print_timer(self):</span>
+        <span class="s1">font = QtGui.QFont()</span>
+        <span class="s1">font.setFamily(</span><span class="s4">&quot;Agency FB&quot;</span><span class="s1">)</span>
+        <span class="s1">font.setPointSize(</span><span class="s3">88</span><span class="s1">)</span>
+
+        <span class="s1">font2 = QtGui.QFont()</span>
+        <span class="s1">font2.setFamily(</span><span class="s4">&quot;Agency FB&quot;</span><span class="s1">)</span>
+        <span class="s1">font2.setPointSize(</span><span class="s3">38</span><span class="s1">)</span>
+
+        <span class="s1">self.cancel_button.setDisabled(</span><span class="s2">False</span><span class="s1">)</span>
+        <span class="s1">self.cancel_button.show()</span>
+
+        <span class="s1">self.timer_label.setFont(font)</span>
+        <span class="s1">self.timer_label.setText(str(MyWindow.counter))</span>
+        <span class="s1">MyWindow.counter -= </span><span class="s3">1</span>
+        <span class="s2">if </span><span class="s1">MyWindow.counter </span><span class="s2">in </span><span class="s1">range(</span><span class="s3">10</span><span class="s2">, </span><span class="s3">90</span><span class="s1">):</span>
+            <span class="s1">self.timer_label.setStyleSheet(</span>
+                <span class="s4">&quot;border-image: url('C:/Users/Owner/PycharmProjects/BF4 Deployment Timer/images/blue tile background pic.jpg'); color: rgb(136, 204, 241)&quot;</span><span class="s1">)</span>
+        <span class="s2">if </span><span class="s1">MyWindow.counter </span><span class="s2">in </span><span class="s1">range(</span><span class="s3">0</span><span class="s2">, </span><span class="s3">10</span><span class="s1">):</span>
+            <span class="s1">self.timer_label.setStyleSheet(</span>
+                <span class="s4">&quot;border-image: url('C:/Users/Owner/PycharmProjects/BF4 Deployment Timer/images/blue tile background pic.jpg'); color: red&quot;</span><span class="s1">)</span>
+        <span class="s2">if </span><span class="s1">MyWindow.counter </span><span class="s2">in </span><span class="s1">range(-</span><span class="s3">4</span><span class="s2">, </span><span class="s3">0</span><span class="s1">):</span>
+            <span class="s1">self.timer_label.setFont(font2)</span>
+            <span class="s1">self.timer_label.setStyleSheet(</span>
+                <span class="s4">&quot;border-image: url('C:/Users/Owner/PycharmProjects/BF4 Deployment Timer/images/blue tile background pic.jpg'); color: rgb(98, 255, 0)&quot;</span><span class="s1">)</span>
+            <span class="s1">self.timer_label.setText(</span><span class="s4">'Ready to Deploy'</span><span class="s1">)</span>
+            <span class="s1">self.reset_button_colors()</span>
+        <span class="s2">if </span><span class="s1">MyWindow.counter == -</span><span class="s3">4</span><span class="s1">:</span>
+            <span class="s1">self.cancel_timers()</span>
+            <span class="s1">MyWindow.counter = </span><span class="s3">90</span>
+            <span class="s1">self.timer_label.setStyleSheet(</span>
+                <span class="s4">&quot;border-image: url('C:/Users/Owner/PycharmProjects/BF4 Deployment Timer/images/blue tile background pic.jpg'); color: rgb(136, 204, 241)&quot;</span><span class="s1">)</span>
+            <span class="s1">self.timer_label.setText(</span><span class="s4">'Awaiting Orders'</span><span class="s1">)</span>
+            <span class="s1">self.reset_audio()</span>
+            <span class="s1">self.cancel_button.setDisabled(</span><span class="s2">True</span><span class="s1">)</span>
+            <span class="s1">self.cancel_button.hide()</span>
+            <span class="s1">print(</span><span class="s4">'process ended'</span><span class="s1">)</span>
+
+
+
+
+                                             <span class="s0"># Vehicle Button Click Methods</span>
+
+    <span class="s2">def </span><span class="s1">AA_click(self):</span>
+
+
+        <span class="s0"># self.AA_button.setIcon(self.AA_icon_green)</span>
+        <span class="s2">if </span><span class="s1">MyWindow.counter == </span><span class="s3">89</span><span class="s1">:</span>
+            <span class="s1">self.AA1_player.play()</span>
+        <span class="s2">if </span><span class="s1">MyWindow.counter == </span><span class="s3">65</span><span class="s1">:</span>
+            <span class="s1">self.AA2_player.play()</span>
+        <span class="s2">if </span><span class="s1">MyWindow.counter == </span><span class="s3">31</span><span class="s1">:</span>
+            <span class="s1">self.AA3_player.play()</span>
+        <span class="s2">if </span><span class="s1">MyWindow.counter == </span><span class="s3">12</span><span class="s1">:</span>
+            <span class="s1">self.AA4_player.play()</span>
+        <span class="s2">if </span><span class="s1">self.countdown_AA.isActive() == </span><span class="s2">False</span><span class="s1">:</span>
+            <span class="s1">self.AA_button.setIcon(self.AA_icon)</span>
+
+    <span class="s2">def </span><span class="s1">tank_click(self):</span>
+
+
+        <span class="s1">self.tank_button.setIcon(self.tank_icon_green)</span>
+        <span class="s2">if </span><span class="s1">MyWindow.counter == </span><span class="s3">89</span><span class="s1">:</span>
+            <span class="s1">self.t1_player.play()</span>
+        <span class="s2">if </span><span class="s1">MyWindow.counter == </span><span class="s3">63</span><span class="s1">:</span>
+            <span class="s1">self.t2_player.play()</span>
+        <span class="s2">if </span><span class="s1">MyWindow.counter == </span><span class="s3">32</span><span class="s1">:</span>
+            <span class="s1">self.t3_player.play()</span>
+        <span class="s2">if </span><span class="s1">MyWindow.counter == </span><span class="s3">12</span><span class="s1">:</span>
+            <span class="s1">self.t4_player.play()</span>
+        <span class="s2">if </span><span class="s1">self.countdown_tank.isActive() == </span><span class="s2">False</span><span class="s1">:</span>
+            <span class="s1">self.tank_button.setIcon(self.tank_icon)</span>
+
+
+    <span class="s2">def </span><span class="s1">jet_click(self):</span>
+
+
+        <span class="s1">self.jet_button.setIcon(self.jet_icon_green)</span>
+        <span class="s2">if </span><span class="s1">MyWindow.counter == </span><span class="s3">89</span><span class="s1">:</span>
+            <span class="s1">self.j1_player.play()</span>
+        <span class="s2">if </span><span class="s1">MyWindow.counter == </span><span class="s3">62</span><span class="s1">:</span>
+            <span class="s1">self.j2_player.play()</span>
+        <span class="s2">if </span><span class="s1">MyWindow.counter == </span><span class="s3">32</span><span class="s1">:</span>
+            <span class="s1">self.j3_player.play()</span>
+        <span class="s2">if </span><span class="s1">MyWindow.counter == </span><span class="s3">12</span><span class="s1">:</span>
+            <span class="s1">self.j4_player.play()</span>
+        <span class="s2">if </span><span class="s1">self.countdown_jet.isActive() == </span><span class="s2">False</span><span class="s1">:</span>
+            <span class="s1">self.jet_button.setIcon(self.jet_icon)</span>
+
+
+    <span class="s2">def </span><span class="s1">scout_helo_click(self):</span>
+
+
+        <span class="s1">self.scout_heli_button.setIcon(self.scout_heli_icon_green)</span>
+        <span class="s2">if </span><span class="s1">MyWindow.counter == </span><span class="s3">89</span><span class="s1">:</span>
+            <span class="s1">self.sh1_player.play()</span>
+        <span class="s2">if </span><span class="s1">MyWindow.counter == </span><span class="s3">63</span><span class="s1">:</span>
+            <span class="s1">self.sh2_player.play()</span>
+        <span class="s2">if </span><span class="s1">MyWindow.counter == </span><span class="s3">31</span><span class="s1">:</span>
+            <span class="s1">self.sh3_player.play()</span>
+        <span class="s2">if </span><span class="s1">MyWindow.counter == </span><span class="s3">12</span><span class="s1">:</span>
+            <span class="s1">self.sh4_player.play()</span>
+        <span class="s2">if </span><span class="s1">self.countdown_scout_helo.isActive() == </span><span class="s2">False</span><span class="s1">:</span>
+            <span class="s1">self.scout_heli_button.setIcon(self.scout_heli_icon)</span>
+
+    <span class="s2">def </span><span class="s1">boat_click(self):</span>
+
+
+        <span class="s1">self.boat_button.setIcon(self.boat_icon_green)</span>
+        <span class="s2">if </span><span class="s1">MyWindow.counter == </span><span class="s3">89</span><span class="s1">:</span>
+            <span class="s1">self.b1_player.play()</span>
+        <span class="s2">if </span><span class="s1">MyWindow.counter == </span><span class="s3">63</span><span class="s1">:</span>
+            <span class="s1">self.b2_player.play()</span>
+        <span class="s2">if </span><span class="s1">MyWindow.counter == </span><span class="s3">31</span><span class="s1">:</span>
+            <span class="s1">self.b3_player.play()</span>
+        <span class="s2">if </span><span class="s1">MyWindow.counter == </span><span class="s3">12</span><span class="s1">:</span>
+            <span class="s1">self.b4_player.play()</span>
+        <span class="s2">if </span><span class="s1">self.countdown_boat.isActive() == </span><span class="s2">False</span><span class="s1">:</span>
+            <span class="s1">self.boat_button.setIcon(self.boat_icon)</span>
+
+    <span class="s2">def </span><span class="s1">lav_click(self):</span>
+
+
+        <span class="s1">self.lav_button.setIcon(self.lav_icon_green)</span>
+        <span class="s2">if </span><span class="s1">MyWindow.counter == </span><span class="s3">89</span><span class="s1">:</span>
+            <span class="s1">self.lav1_player.play()</span>
+        <span class="s2">if </span><span class="s1">MyWindow.counter == </span><span class="s3">62</span><span class="s1">:</span>
+            <span class="s1">self.lav2_player.play()</span>
+        <span class="s2">if </span><span class="s1">MyWindow.counter == </span><span class="s3">32</span><span class="s1">:</span>
+            <span class="s1">self.lav3_player.play()</span>
+        <span class="s2">if </span><span class="s1">MyWindow.counter == </span><span class="s3">11</span><span class="s1">:</span>
+            <span class="s1">self.lav4_player.play()</span>
+        <span class="s2">if </span><span class="s1">self.countdown_lav.isActive() == </span><span class="s2">False</span><span class="s1">:</span>
+            <span class="s1">self.lav_button.setIcon(self.lav_icon)</span>
+
+    <span class="s2">def </span><span class="s1">fighter_bomber_click(self):</span>
+
+
+        <span class="s1">self.fighter_bomber_button.setIcon(self.fighter_bomber_icon_green)</span>
+        <span class="s2">if </span><span class="s1">MyWindow.counter == </span><span class="s3">89</span><span class="s1">:</span>
+            <span class="s1">self.fb1_player.play()</span>
+        <span class="s2">if </span><span class="s1">MyWindow.counter == </span><span class="s3">64</span><span class="s1">:</span>
+            <span class="s1">self.fb2_player.play()</span>
+        <span class="s2">if </span><span class="s1">MyWindow.counter == </span><span class="s3">31</span><span class="s1">:</span>
+            <span class="s1">self.fb3_player.play()</span>
+        <span class="s2">if </span><span class="s1">MyWindow.counter == </span><span class="s3">12</span><span class="s1">:</span>
+            <span class="s1">self.fb4_player.play()</span>
+        <span class="s2">if </span><span class="s1">self.countdown_fighter_bomber.isActive() == </span><span class="s2">False</span><span class="s1">:</span>
+            <span class="s1">self.fighter_bomber_button.setIcon(self.fighter_bomber_icon)</span>
+
+    <span class="s2">def </span><span class="s1">attack_helo_click(self):</span>
+
+
+        <span class="s1">self.attack_helo_button.setIcon(self.attack_helo_icon_green)</span>
+        <span class="s2">if </span><span class="s1">MyWindow.counter == </span><span class="s3">89</span><span class="s1">:</span>
+            <span class="s1">self.ah1_player.play()</span>
+        <span class="s2">if </span><span class="s1">MyWindow.counter == </span><span class="s3">63</span><span class="s1">:</span>
+            <span class="s1">self.ah2_player.play()</span>
+        <span class="s2">if </span><span class="s1">MyWindow.counter == </span><span class="s3">32</span><span class="s1">:</span>
+            <span class="s1">self.ah3_player.play()</span>
+        <span class="s2">if </span><span class="s1">MyWindow.counter == </span><span class="s3">12</span><span class="s1">:</span>
+            <span class="s1">self.ah4_player.play()</span>
+        <span class="s2">if </span><span class="s1">self.countdown_attack_helo.isActive() == </span><span class="s2">False</span><span class="s1">:</span>
+            <span class="s1">self.attack_helo_button.setIcon(self.attack_helo_icon)</span>
+
+
+
+
+
+                                                <span class="s0"># APP READY TO RUN</span>
+<span class="s2">def </span><span class="s1">run_app():</span>
+    <span class="s1">created_app = QApplication(sys.argv)</span>
+    <span class="s1">application = MyWindow()</span>
+    <span class="s1">application.show()</span>
+    <span class="s1">sys.exit(created_app.exec_())</span>
+
+
+
+<span class="s0"># last step -- call the run_app function to launch the application</span>
+
+<span class="s1">run_app()</span></pre>
+</body>
+</html>

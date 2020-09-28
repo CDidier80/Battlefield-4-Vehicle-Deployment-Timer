@@ -1,0 +1,75 @@
+<html>
+<head>
+<title>GUI_Template_code.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #a9b7c6;}
+.s1 { color: #808080;}
+.s2 { color: #cc7832;}
+.s3 { color: #6897bb;}
+.s4 { color: #6a8759;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+GUI_Template_code.py</font>
+</center></td></tr></table>
+<pre>
+
+<span class="s1">##########################################  TEMPLATE for GUI CREATION in PYQT5 ###################################</span>
+
+
+
+<span class="s2">from </span><span class="s0">PyQt5 </span><span class="s2">import </span><span class="s0">QtWidgets</span><span class="s2">, </span><span class="s0">QtMultimediaWidgets</span><span class="s2">,</span><span class="s0">QtMultimedia</span><span class="s2">,</span><span class="s0">QtCore</span>
+<span class="s2">from </span><span class="s0">PyQt5.QtWidgets </span><span class="s2">import </span><span class="s0">QApplication</span><span class="s2">, </span><span class="s0">QMainWindow            </span><span class="s1"># QMainWindow class used to create window for GUI</span>
+<span class="s2">import </span><span class="s0">sys                                                       </span><span class="s1"># will need sys to properly close the GUI later</span>
+
+
+<span class="s1"># part 1: set up main window of app</span>
+
+<span class="s2">class </span><span class="s0">MyWindow(QMainWindow):                               </span><span class="s1"># MyWindow subclass will inherit from QMainWindow</span>
+    <span class="s2">def </span><span class="s0">__init__(self):                                    </span><span class="s1"># class constructor</span>
+        <span class="s0">super(MyWindow</span><span class="s2">, </span><span class="s0">self).__init__()                   </span><span class="s1"># initializes superclass properties</span>
+        <span class="s0">self.setGeometry(</span><span class="s3">0</span><span class="s2">, </span><span class="s3">0</span><span class="s2">, </span><span class="s3">1920</span><span class="s2">, </span><span class="s3">1080</span><span class="s0">)                 </span><span class="s1"># these coordinates make a full screen app - adjust as needed</span>
+        <span class="s0">self.setWindowTitle(</span><span class="s4">&quot;BF4 Deployment Timer&quot;</span><span class="s0">)        </span><span class="s1"># set title of app</span>
+        <span class="s0">self.initGUI()       </span><span class="s1"># optional run the &quot;content creation&quot; method during app initialization -- see part 2 below</span>
+
+
+<span class="s1"># part 2: define contents of the application (widgets, labels, buttons, etc)</span>
+
+    <span class="s2">def </span><span class="s0">initGUI(self):                                     </span><span class="s1"># running this method during initialization creates the content of the app. Helpful for organizing code</span>
+        <span class="s0">self.setStyleSheet(</span><span class="s4">'background-color: rgba(0,0,0,0)'</span><span class="s0">)</span>
+    <span class="s1"># code creating the content of the app goes here.</span>
+
+
+
+<span class="s1"># part 3 :  create additional methods (as many as needed) to interact with the widgets, labels, buttons, etc. These</span>
+<span class="s1">#           are the things that will happen when a widget is used</span>
+
+
+        <span class="s2">def </span><span class="s0">clicked(self):                                      </span><span class="s1"># below are example methods used to add functionality</span>
+            <span class="s2">pass</span>
+
+        <span class="s2">def </span><span class="s0">playvideo(self):</span>
+            <span class="s2">pass</span>
+        <span class="s2">def </span><span class="s0">pausevideo(self):</span>
+            <span class="s2">pass</span>
+
+
+<span class="s1"># part 4: create a function that will run the application (technically, the class instance) set up above when called</span>
+
+<span class="s2">def </span><span class="s0">run_app():</span>
+    <span class="s0">created_app = QApplication(sys.argv)                  </span><span class="s1"># make a Q application and configures it with this needed line</span>
+    <span class="s0">application = MyWindow()                              </span><span class="s1"># creates the application as an instance of MyWindow() class (as inherited by QMainWindow)</span>
+    <span class="s0">application.show()                                    </span><span class="s1"># this line is needed to actually show the app on the screen</span>
+    <span class="s0">sys.exit(created_app.exec_())                         </span><span class="s1"># this allows program to be terminated upon closing of GUI window</span>
+
+
+
+<span class="s1"># part 4 -- last step -- call the run_app function to launch the application</span>
+
+<span class="s0">run_app()</span></pre>
+</body>
+</html>

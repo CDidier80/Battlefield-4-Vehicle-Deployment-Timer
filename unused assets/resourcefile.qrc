@@ -1,0 +1,19 @@
+<RCC>
+  <qresource prefix="Tank">
+    <file>vehicle icons/AA.jpg</file>
+    <file>vehicle icons/attack helo.jpg</file>
+    <file>vehicle icons/boat.jpg</file>
+    <file>vehicle icons/bomber.jpg</file>
+    <file>vehicle icons/jet.jpg</file>
+    <file>vehicle icons/LAV.jpg</file>
+    <file>vehicle icons/scout helicopter.jpg</file>
+    <file>vehicle icons/Tank.jpg</file>
+    <file>vehicle icons/Tank.jpg</file>
+  </qresource>
+  <qresource prefix="images">
+    <file>black timer background rev.jpg</file>
+    <file>background static.jpg</file>
+    <file>vehicle icons/battlefield-3-battlefield-2142-battlefield-4-battlefield-1-car-car-png-clip-art.png</file>
+  </qresource>
+  <qresource prefix="newPrefix"/>
+</RCC>
