@@ -1,4 +1,4 @@
-# BF4 Deployment Timer Main Excecutable
+# BF4 Deployment Timer Main Executable
 
 from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent, QMediaPlaylist
 from PyQt5.QtMultimediaWidgets import QVideoWidget
@@ -24,29 +24,18 @@ class BF4TimerGUI(QMainWindow):
         print("Main Window Configuration successful")
         # Content initialization methods
         self.init_default_variable_states()
-        print("init_default_variable_states() successful")
         self.init_fonts()
-        print("init_fonts() successful")
         self.init_video_background()
-        print("init_video_background() successful")
         self.init_background_music()
-        print("init_background_music() successful")
         self.init_background_images()
-        print("init_background_images() sucessful")
         self.init_buttons()
-        print("init_buttons() successful")
         self.init_sound_effects()
-        print("init_sound_effects() successful")
         self.init_vehicle_audio()
-        print("init_vehicle_audio() successful")
         self.init_vehicle_buttons()
-        print("init_vehicle_buttons() successful")
         self.init_timer()
-        print("init_timer() successful")
         self.init_timer_audio_lists()
-        print("init_timer_audio_lists() successful")
         self.init_icon_dict()
-        print("init_icon_dict() successful")
+
 
     def init_default_variable_states(self):
         """Defines and sets default values for important, miscellaneous class variables."""
@@ -105,15 +94,15 @@ class BF4TimerGUI(QMainWindow):
         a QMediaPlayer object which sets the volume and plays the music.
         """
 
+        self.music_file = QUrl.fromLocalFile('./media/audio/music/deadline.mp3')
         self.background_music_playlist = QMediaPlaylist()
         self.background_music_playlist.setPlaybackMode(QMediaPlaylist.Loop)
-        self.background_music_playlist.addMedia(
-            QMediaContent(QUrl.fromLocalFile('./media/audio/Deadline background music.mp3')))
+        self.background_music_playlist.addMedia(QMediaContent(self.music_file))
 
-        self.backgroundMusic_player = QMediaPlayer(None, QMediaPlayer.LowLatency)
-        self.backgroundMusic_player.setPlaylist(self.background_music_playlist)
-        self.backgroundMusic_player.setVolume(35)
-        self.backgroundMusic_player.play()
+        self.background_music_player = QMediaPlayer(None, QMediaPlayer.LowLatency)
+        self.background_music_player.setPlaylist(self.background_music_playlist)
+        self.background_music_player.setVolume(35)
+        self.background_music_player.play()
 
     def init_background_images(self):
         """ Creates/styles the PyQt5 objects that serve as image backgrounds for various GUI widgets."""
@@ -162,7 +151,6 @@ class BF4TimerGUI(QMainWindow):
         downbutton_icon.addPixmap(QPixmap('./media/images/controls/down arrow.png'), QIcon.Normal, QIcon.Off)
         self.timer_down.setIcon(downbutton_icon)
         self.timer_down.setIconSize(QSize(30, 30))
-        self.timer_down.setObjectName("timer down button")
         self.timer_down.clicked.connect(self.timer_down_click)
 
         # TIMER UP BUTTON
@@ -172,7 +160,6 @@ class BF4TimerGUI(QMainWindow):
         up_button_icon.addPixmap(QPixmap('./media/images/controls/up arrow.jpg'), QIcon.Normal, QIcon.Off)
         self.timer_up.setIcon(up_button_icon)
         self.timer_up.setIconSize(QSize(30, 30))
-        self.timer_up.setObjectName("timer up button")
         self.timer_up.clicked.connect(self.up_button_click)
 
         # "Cancel Timer" BUTTON
@@ -214,7 +201,7 @@ class BF4TimerGUI(QMainWindow):
         self.radio = QMediaContent(self.url_radio)
         self.radio_player = QMediaPlayer(None, QMediaPlayer.LowLatency)
         self.radio_player.setMedia(self.radio)
-        # self.radio_player.setVolume(100)
+
 
     def init_vehicle_audio(self):
         """Creates QMediaPlayer objects to play audio files for command center dialogue."""
@@ -222,208 +209,176 @@ class BF4TimerGUI(QMainWindow):
         # 1. Anti-Air
 
         # Audio File #1
-        self.url_AA1 = QUrl.fromLocalFile('./media/audio/friendly timers/AA/AA1.mp3')
-        self.AA1 = QMediaContent(self.url_AA1)
+        self.AA1 = QMediaContent(QUrl.fromLocalFile('./media/audio/friendly timers/AA/AA1.mp3'))
         self.AA1_player = QMediaPlayer(None, QMediaPlayer.LowLatency)
         self.AA1_player.setMedia(self.AA1)
 
         # Audio File #2
-        self.url_AA2 = QUrl.fromLocalFile('./media/audio/friendly timers/AA/AA2.mp3')
-        self.AA2 = QMediaContent(self.url_AA2)
+        self.AA2 = QMediaContent(QUrl.fromLocalFile('./media/audio/friendly timers/AA/AA2.mp3'))
         self.AA2_player = QMediaPlayer(None, QMediaPlayer.LowLatency)
         self.AA2_player.setMedia(self.AA2)
 
         # Audio File #3
-        self.url_AA3 = QUrl.fromLocalFile('./media/audio/friendly timers/AA/AA3.mp3')
-        self.AA3 = QMediaContent(self.url_AA3)
+        self.AA3 = QMediaContent(QUrl.fromLocalFile('./media/audio/friendly timers/AA/AA3.mp3'))
         self.AA3_player = QMediaPlayer(None, QMediaPlayer.LowLatency)
         self.AA3_player.setMedia(self.AA3)
 
         # Audio File #4
-        self.url_AA4 = QUrl.fromLocalFile('./media/audio/friendly timers/AA/AA4.mp3')
-        self.AA4 = QMediaContent(self.url_AA4)
+        self.AA4 = QMediaContent(QUrl.fromLocalFile('./media/audio/friendly timers/AA/AA4.mp3'))
         self.AA4_player = QMediaPlayer(None, QMediaPlayer.LowLatency)
         self.AA4_player.setMedia(self.AA4)
 
         # 2. Scout Helicopter
 
         # Audio File #1
-        self.url_sh1 = QUrl.fromLocalFile('./media/audio/friendly timers/scout heli/SH1.mp3')
-        self.sh1 = QMediaContent(self.url_sh1)
+        self.sh1 = QMediaContent(QUrl.fromLocalFile('./media/audio/friendly timers/scout heli/SH1.mp3'))
         self.sh1_player = QMediaPlayer(None, QMediaPlayer.LowLatency)
         self.sh1_player.setMedia(self.sh1)
 
         # Audio File #2
-        self.url_sh2 = QUrl.fromLocalFile('./media/audio/friendly timers/scout heli/SH2.mp3')
-        self.sh2 = QMediaContent(self.url_sh2)
+        self.sh2 = QMediaContent(QUrl.fromLocalFile('./media/audio/friendly timers/scout heli/SH2.mp3'))
         self.sh2_player = QMediaPlayer(None, QMediaPlayer.LowLatency)
         self.sh2_player.setMedia(self.sh2)
 
         # Audio File #3
-        self.url_sh3 = QUrl.fromLocalFile('./media/audio/friendly timers/scout heli/SH3.mp3')
-        self.sh3 = QMediaContent(self.url_sh3)
+        self.sh3 = QMediaContent(QUrl.fromLocalFile('./media/audio/friendly timers/scout heli/SH3.mp3'))
         self.sh3_player = QMediaPlayer(None, QMediaPlayer.LowLatency)
         self.sh3_player.setMedia(self.sh3)
 
         # Audio File #4
-        self.url_sh4 = QUrl.fromLocalFile('./media/audio/friendly timers/scout heli/SH4.mp3')
-        self.sh4 = QMediaContent(self.url_sh4)
+        self.sh4 = QMediaContent(QUrl.fromLocalFile('./media/audio/friendly timers/scout heli/SH4.mp3'))
         self.sh4_player = QMediaPlayer(None, QMediaPlayer.LowLatency)
         self.sh4_player.setMedia(self.sh4)
 
         # 3. Attack Helicopter
 
         # Audio File 1
-        self.url_ah1 = QUrl.fromLocalFile('./media/audio/friendly timers/attack heli/AH1.wav')
-        self.ah1 = QMediaContent(self.url_ah1)
+        self.ah1 = QMediaContent(QUrl.fromLocalFile('./media/audio/friendly timers/attack heli/AH1.wav'))
         self.ah1_player = QMediaPlayer(None, QMediaPlayer.LowLatency)
         self.ah1_player.setMedia(self.ah1)
 
         # Audio File #2
-        self.url_ah2 = QUrl.fromLocalFile('./media/audio/friendly timers/attack heli/AH2.wav')
-        self.ah2 = QMediaContent(self.url_ah2)
+        self.ah2 = QMediaContent(QUrl.fromLocalFile('./media/audio/friendly timers/attack heli/AH2.wav'))
         self.ah2_player = QMediaPlayer(None, QMediaPlayer.LowLatency)
         self.ah2_player.setMedia(self.ah2)
 
         # Audio File #3
-        self.url_ah3 = QUrl.fromLocalFile('./media/audio/friendly timers/attack heli/AH3.wav')
-        self.ah3 = QMediaContent(self.url_ah3)
+        self.ah3 = QMediaContent(QUrl.fromLocalFile('./media/audio/friendly timers/attack heli/AH3.wav'))
         self.ah3_player = QMediaPlayer(None, QMediaPlayer.LowLatency)
         self.ah3_player.setMedia(self.ah3)
 
         # Audio File #4
-        self.url_ah4 = QUrl.fromLocalFile('./media/audio/friendly timers/attack heli/AH4.wav')
-        self.ah4 = QMediaContent(self.url_ah4)
+        self.ah4 = QMediaContent(QUrl.fromLocalFile('./media/audio/friendly timers/attack heli/AH4.wav'))
         self.ah4_player = QMediaPlayer(None, QMediaPlayer.LowLatency)
         self.ah4_player.setMedia(self.ah4)
 
         # 4. Attack Boat
 
         # Audio File #1
-        self.url_b1 = QUrl.fromLocalFile('./media/audio/friendly timers/attack boat/B1.wav')
-        self.b1 = QMediaContent(self.url_b1)
+        self.b1 = QMediaContent(QUrl.fromLocalFile('./media/audio/friendly timers/attack boat/B1.wav'))
         self.b1_player = QMediaPlayer(None, QMediaPlayer.LowLatency)
         self.b1_player.setMedia(self.b1)
 
         # Audio File #2
-        self.url_b2 = QUrl.fromLocalFile('./media/audio/friendly timers/attack boat/B2.wav')
-        self.b2 = QMediaContent(self.url_b2)
+        self.b2 = QMediaContent(QUrl.fromLocalFile('./media/audio/friendly timers/attack boat/B2.wav'))
         self.b2_player = QMediaPlayer(None, QMediaPlayer.LowLatency)
         self.b2_player.setMedia(self.b2)
 
         # Audio File #3
-        self.url_b3 = QUrl.fromLocalFile('./media/audio/friendly timers/attack boat/B3.wav')
-        self.b3 = QMediaContent(self.url_b3)
+        self.b3 = QMediaContent(QUrl.fromLocalFile('./media/audio/friendly timers/attack boat/B3.wav'))
         self.b3_player = QMediaPlayer(None, QMediaPlayer.LowLatency)
         self.b3_player.setMedia(self.b3)
 
         # Audio File #4
-        self.url_b4 = QUrl.fromLocalFile('./media/audio/friendly timers/attack boat/B4.wav')
-        self.b4 = QMediaContent(self.url_b4)
+        self.b4 = QMediaContent(QUrl.fromLocalFile('./media/audio/friendly timers/attack boat/B4.wav'))
         self.b4_player = QMediaPlayer(None, QMediaPlayer.LowLatency)
         self.b4_player.setMedia(self.b4)
 
         # 5. Tank
 
         # Audio File #1
-        self.url_t1 = QUrl.fromLocalFile('./media/audio/friendly timers/tank/T1.wav')
-        self.t1 = QMediaContent(self.url_t1)
+        self.t1 = QMediaContent(QUrl.fromLocalFile('./media/audio/friendly timers/tank/T1.wav'))
         self.t1_player = QMediaPlayer(None, QMediaPlayer.LowLatency)
         self.t1_player.setMedia(self.t1)
 
         # Audio File #2
-        self.url_t2 = QUrl.fromLocalFile('./media/audio/friendly timers/tank/T2.wav')
-        self.t2 = QMediaContent(self.url_t2)
+        self.t2 = QMediaContent(QUrl.fromLocalFile('./media/audio/friendly timers/tank/T2.wav'))
         self.t2_player = QMediaPlayer(None, QMediaPlayer.LowLatency)
         self.t2_player.setMedia(self.t2)
 
         # Audio File #3
-        self.url_t3 = QUrl.fromLocalFile('./media/audio/friendly timers/tank/T3.wav')
-        self.t3 = QMediaContent(self.url_t3)
+        self.t3 = QMediaContent(QUrl.fromLocalFile('./media/audio/friendly timers/tank/T3.wav'))
         self.t3_player = QMediaPlayer(None, QMediaPlayer.LowLatency)
         self.t3_player.setMedia(self.t3)
 
         # Audio File #4
-        self.url_t4 = QUrl.fromLocalFile('./media/audio/friendly timers/tank/T4.wav')
-        self.t4 = QMediaContent(self.url_t4)
+        self.t4 = QMediaContent(QUrl.fromLocalFile('./media/audio/friendly timers/tank/T4.wav'))
         self.t4_player = QMediaPlayer(None, QMediaPlayer.LowLatency)
         self.t4_player.setMedia(self.t4)
 
         # 6. LAV
 
         # Audio File #1
-        self.url_lav1 = QUrl.fromLocalFile('./media/audio/friendly timers/lav/LAV1.wav')
-        self.lav1 = QMediaContent(self.url_lav1)
+        self.lav1 = QMediaContent(QUrl.fromLocalFile('./media/audio/friendly timers/lav/LAV1.wav'))
         self.lav1_player = QMediaPlayer(None, QMediaPlayer.LowLatency)
         self.lav1_player.setMedia(self.lav1)
 
         # Audio File #2
-        self.url_lav2 = QUrl.fromLocalFile('./media/audio/friendly timers/lav/LAV2.wav')
-        self.lav2 = QMediaContent(self.url_lav2)
+        self.lav2 = QMediaContent(QUrl.fromLocalFile('./media/audio/friendly timers/lav/LAV2.wav'))
         self.lav2_player = QMediaPlayer(None, QMediaPlayer.LowLatency)
         self.lav2_player.setMedia(self.lav2)
 
         # Audio File #3
-        self.url_lav3 = QUrl.fromLocalFile('./media/audio/friendly timers/lav/LAV3.wav')
-        self.lav3 = QMediaContent(self.url_lav3)
+        self.lav3 = QMediaContent(QUrl.fromLocalFile('./media/audio/friendly timers/lav/LAV3.wav'))
         self.lav3_player = QMediaPlayer(None, QMediaPlayer.LowLatency)
         self.lav3_player.setMedia(self.lav3)
 
         # Audio File #4
-        self.url_lav4 = QUrl.fromLocalFile('./media/audio/friendly timers/lav/LAV4.wav')
-        self.lav4 = QMediaContent(self.url_lav4)
+        self.lav4 = QMediaContent(QUrl.fromLocalFile('./media/audio/friendly timers/lav/LAV4.wav'))
         self.lav4_player = QMediaPlayer(None, QMediaPlayer.LowLatency)
         self.lav4_player.setMedia(self.lav4)
 
         # 7. Jet
 
         # Audio File #1
-        self.url_j1 = QUrl.fromLocalFile('./media/audio/friendly timers/jet/J1.wav')
-        self.j1 = QMediaContent(self.url_j1)
+        self.j1 = QMediaContent(QUrl.fromLocalFile('./media/audio/friendly timers/jet/J1.wav'))
         self.j1_player = QMediaPlayer(None, QMediaPlayer.LowLatency)
         self.j1_player.setMedia(self.j1)
 
         # Audio File #2
-        self.url_j2 = QUrl.fromLocalFile('./media/audio/friendly timers/jet/J2.wav')
-        self.j2 = QMediaContent(self.url_j2)
+        self.j2 = QMediaContent(QUrl.fromLocalFile('./media/audio/friendly timers/jet/J2.wav'))
         self.j2_player = QMediaPlayer(None, QMediaPlayer.LowLatency)
         self.j2_player.setMedia(self.j2)
 
         # Audio File #3
-        self.url_j3 = QUrl.fromLocalFile('./media/audio/friendly timers/jet/J3.wav')
-        self.j3 = QMediaContent(self.url_j3)
+        self.j3 = QMediaContent(QUrl.fromLocalFile('./media/audio/friendly timers/jet/J3.wav'))
         self.j3_player = QMediaPlayer(None, QMediaPlayer.LowLatency)
         self.j3_player.setMedia(self.j3)
 
         # Audio File #4
-        self.url_j4 = QUrl.fromLocalFile('./media/audio/friendly timers/jet/J4.wav')
-        self.j4 = QMediaContent(self.url_j4)
+        self.j4 = QMediaContent(QUrl.fromLocalFile('./media/audio/friendly timers/jet/J4.wav'))
         self.j4_player = QMediaPlayer(None, QMediaPlayer.LowLatency)
         self.j4_player.setMedia(self.j4)
 
         # 8. Fighter Bomber
 
         # Audio File #1
-        self.url_fb1 = QUrl.fromLocalFile('./media/audio/friendly timers/fighter bomber/FB1.wav')
-        self.fb1 = QMediaContent(self.url_fb1)
+        self.fb1 = QMediaContent(QUrl.fromLocalFile('./media/audio/friendly timers/fighter bomber/FB1.wav'))
         self.fb1_player = QMediaPlayer(None, QMediaPlayer.LowLatency)
         self.fb1_player.setMedia(self.fb1)
 
         # Audio File #2
-        self.url_fb2 = QUrl.fromLocalFile('./media/audio/friendly timers/fighter bomber/FB2.wav')
-        self.fb2 = QMediaContent(self.url_fb2)
+        self.fb2 = QMediaContent(QUrl.fromLocalFile('./media/audio/friendly timers/fighter bomber/FB2.wav'))
         self.fb2_player = QMediaPlayer(None, QMediaPlayer.LowLatency)
         self.fb2_player.setMedia(self.fb2)
 
         # Audio File #3
-        self.url_fb3 = QUrl.fromLocalFile('./media/audio/friendly timers/fighter bomber/FB3.wav')
-        self.fb3 = QMediaContent(self.url_fb3)
+        self.fb3 = QMediaContent(QUrl.fromLocalFile('./media/audio/friendly timers/fighter bomber/FB3.wav'))
         self.fb3_player = QMediaPlayer(None, QMediaPlayer.LowLatency)
         self.fb3_player.setMedia(self.fb3)
 
         # Audio File #4
-        self.url_fb4 = QUrl.fromLocalFile('./media/audio/friendly timers/fighter bomber/FB4.wav')
-        self.fb4 = QMediaContent(self.url_fb4)
+        self.fb4 = QMediaContent(QUrl.fromLocalFile('./media/audio/friendly timers/fighter bomber/FB4.wav'))
         self.fb4_player = QMediaPlayer(None, QMediaPlayer.LowLatency)
         self.fb4_player.setMedia(self.fb4)
 
@@ -432,7 +387,7 @@ class BF4TimerGUI(QMainWindow):
     def init_vehicle_buttons(self):
         """Creates, styles and connects buttons representing Battlefield 4 vehicles to their corresponding methods.
 
-        QIcon objects containing images of each vehicle are applied to QPushbuttons. There are 2 variants of QIcon for
+        QIcon objects containing images of each vehicle are applied to QPushButtons. There are 2 variants of QIcon for
         each vehicle - green and blue. Green is applied to the button when it has been pressed.
         """
 

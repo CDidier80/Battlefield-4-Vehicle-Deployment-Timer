@@ -19,20 +19,15 @@ class MyWindow(QMainWindow):
 
     def initialize_content(self):
 
+        self.music_file = QUrl.fromLocalFile('./media/audio/music/deadline.mp3')
+        self.background_music_playlist = QMediaPlaylist()
+        self.background_music_playlist.setPlaybackMode(QMediaPlaylist.Loop)
+        self.background_music_playlist.addMedia(QMediaContent(self.music_file))
 
-        self.blacktile_default_style = "border-image: url('./media/images/backgrounds/control console.png');"
-        self.logo_label_default_style = "border-image: url('./media/images/backgrounds/title background.png'); " \
-                                        "background-color:black; color: rgb(136, 204, 241)"
-        self.timer_label_default_style = "border-image: url('./media/images/backgrounds/tile background.jpg'); color:" \
-                                         "rgb(136, 204, 241) "
-        self.timer_label_10sec_style = "border-image: url('./media/images/backgrounds/tile background.jpg'); color: red;"
-        self.timer_label_deploy_style = "border-image: url('./media/images/backgrounds/tile background.jpg'); color: rgb(" \
-                                    "98, 255, 0); "
-        self.blacktile_label = QLabel(self)
-        self.blacktile_label.setGeometry(QRect(1313, 0, 601, 1080))
-        self.blacktile_label.setFrameShadow(QFrame.Raised)
-        self.blacktile_label.setStyleSheet(self.blacktile_default_style)
-        self.blacktile_label.show()
+        self.backgroundMusic_player = QMediaPlayer(None, QMediaPlayer.LowLatency)
+        self.backgroundMusic_player.setPlaylist(self.background_music_playlist)
+        self.backgroundMusic_player.setVolume(100)
+        self.backgroundMusic_player.play()
 
     def initialize_interactive_methods(self):
         """All widget functions activated by user interaction are defined in this method. The UCAnalysisGUI class 
